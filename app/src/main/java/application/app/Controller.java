@@ -1,5 +1,4 @@
-package application.model;
-
+package application.app;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -31,7 +30,7 @@ public class Controller {
 
     @FXML
     public void switchToGraphWindow(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../canvas/Graph window.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Graph window.fxml"));
         Stage stage = (Stage) btnStart.getScene().getWindow();
         stage.setScene(new Scene(root, 800, 550));
     }
@@ -73,7 +72,7 @@ public class Controller {
 
     @FXML
     public void switchToGraph(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("../canvas/Start window.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("Start window.fxml"));
         Stage stage = (Stage) btnA.getScene().getWindow();
         stage.setScene(new Scene(root, 800, 550));
     }

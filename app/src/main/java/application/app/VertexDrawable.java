@@ -1,8 +1,8 @@
-package application.canvas;
+package application.app;
 
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import application.model.*;
+//import project.application.model.*;
 import javafx.scene.text.Text;
 
 import java.util.HashMap;

@@ -1,7 +1,7 @@
-package application.model;
+package application.app;
 
-import application.canvas.EdgeDrawable;
-import application.canvas.VertexDrawable;
+//import project.application.canvas.EdgeDrawable;
+//import project.application.canvas.VertexDrawable;
 import javafx.scene.layout.Pane;
 
 import java.util.ArrayList;

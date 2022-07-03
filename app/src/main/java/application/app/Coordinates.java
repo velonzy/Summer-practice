@@ -1,4 +1,4 @@
-package application.model;
+package application.app;
 
 public class Coordinates <T>{
     private final T x, y;

@@ -1,4 +1,4 @@
-package application.model;
+package application.app;
 
 import javafx.util.Pair;
 

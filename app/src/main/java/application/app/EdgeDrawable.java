@@ -1,6 +1,6 @@
-package application.canvas;
+package application.app;
 
-import application.model.Vertex;
+//import project.application.model.Vertex;
 import javafx.scene.shape.Line;
 import javafx.scene.text.Text;
 
