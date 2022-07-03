@@ -10,6 +10,7 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        // exceptions
         Parent root = FXMLLoader.load(getClass().getResource("Start window.fxml"));
         primaryStage.setTitle("A* algorithm");
         primaryStage.setScene(new Scene(root, 800, 550));
