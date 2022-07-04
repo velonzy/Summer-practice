@@ -1,7 +1,8 @@
 package application.app;
 
 public class Coordinates <T>{
-    private final T x, y;
+    private T x;
+    private T y;
     Coordinates (T x, T y) {
         this.x = x;
         this.y = y;
@@ -13,5 +14,13 @@ public class Coordinates <T>{
 
     public T getY(){
         return y;
+    }
+
+    public void setX(T x) {
+        this.x = x;
+    }
+
+    public void setY(T y) {
+        this.y = y;
     }
 }

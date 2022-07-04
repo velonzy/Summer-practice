@@ -2,6 +2,8 @@ package application.app;
 
 //import project.application.canvas.EdgeDrawable;
 //import project.application.canvas.VertexDrawable;
+import javafx.event.EventHandler;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
 // files
@@ -19,11 +21,6 @@ public class GraphController { //для считывания графа
     Graph graph;
     ArrayList<EdgeDrawable> edgesDrawable;
 
-//    public GraphController(){
-//        vertexesDrawable = new ArrayList<VertexDrawable>();
-//        edgesDrawable = new ArrayList<EdgeDrawable>();
-//        graph = new Graph();
-//    }
 
     //в readGraphFromWindow, readGraphFromFile добавить исключения, если вводимые данные пустые, плюс для
     // файлов исключение на то, что файл не существует
@@ -54,6 +51,30 @@ public class GraphController { //для считывания графа
             fVertex = graph.findVertex(finish); // добавить исключение, когда одно из них не найдено
             graph.addEdge(sVertex, fVertex, weight);
             edgesDrawable.add(new EdgeDrawable(sVertex, fVertex, weight));
+        }
+
+        // добавлены функции реакции круга на перетаскивание мышью, меняются координаты вершины в окне,
+        // а также меняются координаты круга
+        for(VertexDrawable v: vertexesDrawable){
+            final Double[] x = new Double[1];
+            final Double[] y = new Double[1];
+            v.getView().setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    x[0] = v.getView().getLayoutX() - mouseEvent.getSceneX();
+                    y[0] = v.getView().getLayoutY() - mouseEvent.getSceneY();
+                }
+            });
+            v.getView().setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    v.getVertex().setCoordinates(mouseEvent.getSceneX() + x[0], mouseEvent.getSceneY() + y[0]);
+                    v.moveCircle();
+                    for(EdgeDrawable e: edgesDrawable) {
+                        e.moveLine();
+                    }
+                }
+            });
         }
     }
 

@@ -5,17 +5,17 @@ import java.util.Arrays;
 import java.util.HashMap;
 
 public class AStar {
-     int[] closed; //Список пройдённых вершин
-     int[] open; // Очередь вершин
-     HashMap<Vertex, Double> f = new HashMap<>();
-     HashMap<Vertex, Double> g = new HashMap<>();
-     HashMap<Vertex, Boolean> in_open = new HashMap<>();
-     HashMap<Vertex, Boolean> in_closed = new HashMap<>();
-     HashMap<Vertex, Vertex> from = new HashMap<>();
+    int[] closed; //Список пройдённых вершин
+    int[] open; // Очередь вершин
+    HashMap<Vertex, Double> f = new HashMap<>();
+    HashMap<Vertex, Double> g = new HashMap<>();
+    HashMap<Vertex, Boolean> in_open = new HashMap<>();
+    HashMap<Vertex, Boolean> in_closed = new HashMap<>();
+    HashMap<Vertex, Vertex> from = new HashMap<>();
 
     private double h(Vertex a, Vertex b){ // Эвристическая функция
-        return Math.abs( Math.pow((int)a.getCoordinates().getX() - (int)b.getCoordinates().getX(), 2) +
-                Math.pow((int)a.getCoordinates().getY() - (int)b.getCoordinates().getY(), 2));
+        return Math.abs( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
+                Math.pow(a.getCoordinates().getY() - b.getCoordinates().getY(), 2));
     }
 
     private int find(char lttr, ArrayList<Vertex> graph){
@@ -76,7 +76,7 @@ public class AStar {
                 double temp_g = g.get(current) + neighbour.getValue();
                 if (( in_open.containsKey(neighbour.getKey()) || !in_open.get(neighbour.getKey()))
                         && ( in_closed.containsKey(neighbour.getKey())|| !in_closed.get(neighbour.getKey()))
-                || temp_g < g.get(neighbour.getKey())){
+                        || temp_g < g.get(neighbour.getKey())){
                     from.put(neighbour.getKey(), current);
                     g.put(neighbour.getKey(), temp_g);
                     f.put(neighbour.getKey(), g.get(neighbour.getKey()) + h(neighbour.getKey(), finish));
