@@ -1,10 +1,14 @@
 package application.app;
 
+import javafx.event.EventHandler;
+import javafx.scene.Cursor;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 //import project.application.model.*;
 import javafx.scene.text.Text;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class VertexDrawable {
@@ -19,13 +23,19 @@ public class VertexDrawable {
         name = vertex.getName();
         coordinates = vertex.getCoordinates();
         vertexCircle = new Circle();
-        vertexCircle.setCenterX((Double) coordinates.getX());
-        vertexCircle.setCenterY((Double) coordinates.getY());
+        vertexCircle.setLayoutX((Double) coordinates.getX());
+        vertexCircle.setLayoutY((Double) coordinates.getY());
         vertexCircle.setRadius(15);
         vertexCircle.setFill(Paint.valueOf("#3fbab4"));
         nameCircle = new Text(String.valueOf(name));
         nameCircle.setX((Double) coordinates.getX());
         nameCircle.setY((Double) coordinates.getY());
+        vertexCircle.setOnMouseEntered(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                vertexCircle.setCursor(Cursor.HAND);
+            }
+        });
     }
 
     public Circle getView(){
@@ -34,5 +44,17 @@ public class VertexDrawable {
 
     public Text getName(){
         return nameCircle;
+    }
+
+    public Vertex getVertex() {
+        return vertex;
+    }
+
+    public void moveCircle() {
+        coordinates = vertex.getCoordinates();
+        vertexCircle.setLayoutX((Double) coordinates.getX());
+        vertexCircle.setLayoutY((Double) coordinates.getY());
+        nameCircle.setX((Double) coordinates.getX());
+        nameCircle.setY((Double) coordinates.getY());
     }
 }
