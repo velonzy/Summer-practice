@@ -6,15 +6,25 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.net.URL;
+
 public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         // exceptions
-        Parent root = FXMLLoader.load(getClass().getResource("Start window.fxml"));
+
+        // c if перестало подсвечивать и вызывать лишние exceptions,
+        // в будущем нужно будет пересмотреть подход к проверке (наверное)
+        URL cl;
+        Parent root;
+        if ((cl = getClass().getResource("Start window.fxml")) != null){
+            root = FXMLLoader.load(cl);
+        } else {
+            return;
+        }
         primaryStage.setTitle("A* algorithm");
         primaryStage.setScene(new Scene(root, 800, 550));
         primaryStage.show();
-        //  linear-gradient(to bottom left, #52fff6, #9a35d4)
     }
 }

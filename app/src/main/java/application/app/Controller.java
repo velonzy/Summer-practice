@@ -36,9 +36,17 @@ public class Controller {
     }
 
     @FXML
-    public void readFromWindow(){
+    public void readFromWindow() throws IOException {
         graph = new GraphController();
-        graph.readGraph(window.getText());
+        graph.readGraphFromWindow(window.getText());
+        graph.drawGraph(pane);
+//        readFromFile();
+    }
+
+    public void readFromFile() throws IOException {
+        String fileName = "/home/anna/IdeaProjects/app/src/main/resources/data.txt";
+        graph = new GraphController();
+        graph.readGraphFromFile(fileName);
         graph.drawGraph(pane);
     }
 

@@ -1,7 +1,6 @@
 package application.app;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Graph {
     private ArrayList<Vertex> vertexes;
