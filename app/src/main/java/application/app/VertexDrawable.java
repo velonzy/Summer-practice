@@ -13,7 +13,6 @@ public class VertexDrawable {
     private Text nameCircle;
     private Vertex vertex;
     private Coordinates coordinates;
-    //private HashMap<VertexDrawable, Double> neighbours;
 
     public VertexDrawable(Vertex vertex){
         this.vertex = vertex;
@@ -27,12 +26,7 @@ public class VertexDrawable {
         nameCircle = new Text(String.valueOf(name));
         nameCircle.setX((Double) coordinates.getX());
         nameCircle.setY((Double) coordinates.getY());
-        //neighbours = new HashMap<VertexDrawable, Double>();
     }
-
-//    public void addNeighbour(VertexDrawable vertex, double weight){
-//        neighbours.put(vertex, weight);
-//    }
 
     public Circle getView(){
         return vertexCircle;

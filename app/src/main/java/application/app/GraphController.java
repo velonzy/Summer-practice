@@ -12,13 +12,17 @@ public class GraphController { //для считывания графа
     Graph graph;
     ArrayList<EdgeDrawable> edgesDrawable;
 
-    public GraphController(){
+//    public GraphController(){
+//        vertexesDrawable = new ArrayList<VertexDrawable>();
+//        edgesDrawable = new ArrayList<EdgeDrawable>();
+//        graph = new Graph();
+//    }
+
+    public void readGraph(String string){
         vertexesDrawable = new ArrayList<VertexDrawable>();
         edgesDrawable = new ArrayList<EdgeDrawable>();
         graph = new Graph();
-    }
 
-    public void readGraph(String string){
         String[] tokens = string.split("[\n ]");
         int numberOfVertexes = Integer.parseInt(tokens[0]);
         for (int i = 1; i < numberOfVertexes * 3; i += 3){
@@ -32,7 +36,7 @@ public class GraphController { //для считывания графа
             start = tokens[i].charAt(0);
             finish = tokens[i + 1].charAt(0);
             weight = Double.parseDouble(tokens[i + 2]);
-            Vertex sVertex = null, fVertex = null;
+            Vertex sVertex, fVertex;
             sVertex = graph.findVertex(start);
             fVertex = graph.findVertex(finish); // добавить исключение, когда одно из них не найдено
             graph.addEdge(sVertex, fVertex, weight);
@@ -41,9 +45,14 @@ public class GraphController { //для считывания графа
     }
 
     public void drawGraph(Pane pane){
+        pane.getChildren().clear();
         for (VertexDrawable vertex: vertexesDrawable){
             pane.getChildren().add(vertex.getView());
             pane.getChildren().add(vertex.getName());
+        }
+        for (EdgeDrawable edge: edgesDrawable){
+            pane.getChildren().add(edge.getView());
+            pane.getChildren().add(edge.getName());
         }
     }
 }
