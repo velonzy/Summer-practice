@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="550.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.app.Controller">
    <children>
-      <Pane fx:id="pane" layoutX="176.0" layoutY="-2.0" prefHeight="552.0" prefWidth="622.0" style="-fx-background-color: #ebebeb;" />
+      <Pane fx:id="pane" layoutX="176.0" layoutY="-2.0" onMouseClicked="#mouseClickButton" prefHeight="552.0" prefWidth="622.0" style="-fx-background-color: #ebebeb;" />
       <TabPane layoutY="-1.0" prefHeight="550.0" prefWidth="175.0" style="-fx-background-color: #E6E6FA;" stylesheets="@style.css" tabClosingPolicy="UNAVAILABLE">
         <tabs>
           <Tab style="-fx-background-color: white;" text="Input">

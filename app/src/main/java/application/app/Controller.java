@@ -1,11 +1,15 @@
 package application.app;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
@@ -28,6 +32,12 @@ public class Controller {
 
     private GraphController graph;
 
+//    @FXML
+//    private ContextMenu contextMenu;
+//
+//    @FXML
+//    private MenuItem addVertex;
+
     @FXML
     public void switchToGraphWindow(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("Graph window.fxml"));
@@ -40,9 +50,9 @@ public class Controller {
         graph = new GraphController();
         graph.readGraphFromWindow(window.getText());
         graph.drawGraph(pane);
-        //Vertex vertexA = graph.graph.findVertex('a');
-        //Vertex vertexB = graph.graph.findVertex('b');
-        //graph.runningAlgorithmAStar(vertexA, vertexB);
+        Vertex vertexA = graph.graph.findVertex('a');
+        Vertex vertexB = graph.graph.findVertex('z');
+        graph.runningAlgorithmAStar(vertexA, vertexB);
 //        readFromFile();
     }
 
@@ -54,8 +64,21 @@ public class Controller {
     }
 
     @FXML
-    public void mouseRightButton(MouseEvent event){
-        
+    public void mouseClickButton(MouseEvent event){
+        ContextMenu contextMenu = new ContextMenu();
+        MenuItem addVertex = new MenuItem("Add vertex");
+        contextMenu.getItems().add(addVertex);
+        pane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
+
+            @Override
+            public void handle(MouseEvent mouseEvent) {
+                if(mouseEvent.getButton() == MouseButton.SECONDARY){
+                    contextMenu.show(pane, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                } else if(mouseEvent.getButton() == MouseButton.PRIMARY){
+                    contextMenu.hide();
+                }
+            }
+        });
     }
 
     @FXML

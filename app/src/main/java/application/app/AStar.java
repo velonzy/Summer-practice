@@ -74,15 +74,15 @@ public class AStar {
             for (HashMap.Entry<Vertex, Double> neighbour : current.getNeighbours().entrySet()) {
                 int neigh_index = find(neighbour.getKey().getName(), graph);
                 double temp_g = g.get(current) + neighbour.getValue();
-                if (( in_open.containsKey(neighbour.getKey()) || !in_open.get(neighbour.getKey()))
-                        && ( in_closed.containsKey(neighbour.getKey())|| !in_closed.get(neighbour.getKey()))
-                        || temp_g < g.get(neighbour.getKey())){
+                if (( !in_open.containsKey(neighbour.getKey()) || in_open.containsKey(neighbour.getKey()) && !in_open.get(neighbour.getKey()))
+                        && ( !in_closed.containsKey(neighbour.getKey()) || in_closed.containsKey(neighbour.getKey())&& !in_closed.get(neighbour.getKey()))
+                        || (g.containsKey(neighbour.getKey()) && temp_g < g.get(neighbour.getKey()))){
                     from.put(neighbour.getKey(), current);
                     g.put(neighbour.getKey(), temp_g);
                     f.put(neighbour.getKey(), g.get(neighbour.getKey()) + h(neighbour.getKey(), finish));
                 }
-                if (( in_open.containsKey(neighbour.getKey()) || !in_open.get(neighbour.getKey()))
-                        && ( in_closed.containsKey(neighbour.getKey())|| !in_closed.get(neighbour.getKey()))){
+                if (( !in_open.containsKey(neighbour.getKey()) || in_open.containsKey(neighbour.getKey()) && !in_open.get(neighbour.getKey()))
+                        && ( !in_closed.containsKey(neighbour.getKey()) || in_closed.containsKey(neighbour.getKey())&& !in_closed.get(neighbour.getKey()))){
                     in_open.put(neighbour.getKey(), true);
                     int[] destArray3 = Arrays.copyOf(open, open.length + 1);
                     open = destArray3;
@@ -96,8 +96,12 @@ public class AStar {
     public ArrayList<Vertex> a_star_public(Vertex start, Vertex finish, ArrayList<Vertex> graph){
         ArrayList<Vertex> solution = new ArrayList<Vertex>();
         int goal = a_star(start, finish, graph);
-        while(from.containsKey(graph.get(goal))){
-            solution.add(from.get(graph.get(goal)));
+        if (goal < 0) return solution;
+        Vertex current = graph.get(goal);
+        solution.add(current);
+        while(from.containsKey(current)){
+            solution.add(0, from.get(current));
+            current = from.get(current);
         }
         return solution;
     }
