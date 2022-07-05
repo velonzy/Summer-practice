@@ -19,8 +19,17 @@ import java.util.ArrayList;
 public class GraphController { //для считывания графа
     ArrayList<VertexDrawable> vertexesDrawable;
     Graph graph;
+    AStar aStar;
     ArrayList<EdgeDrawable> edgesDrawable;
 
+    public void runningAlgorithmAStar(Vertex first, Vertex second){
+        //Vertex vertexA = graph.findVertex('a');
+        //Vertex vertexB = graph.findVertex('b');
+        ArrayList<Vertex> solution = new ArrayList<>();
+        aStar = new AStar();
+        aStar.a_star_public(first, second, graph.getVertexes());
+        System.out.println(solution);
+    }
 
     //в readGraphFromWindow, readGraphFromFile добавить исключения, если вводимые данные пустые, плюс для
     // файлов исключение на то, что файл не существует

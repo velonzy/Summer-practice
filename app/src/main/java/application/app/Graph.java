@@ -9,6 +9,10 @@ public class Graph {
         vertexes = new ArrayList<Vertex>();
     }
 
+    public ArrayList<Vertex> getVertexes() {
+        return vertexes;
+    }
+
     void addVertex(char vertex, double x, double y){
         vertexes.add(new Vertex(vertex, x, y));
     }

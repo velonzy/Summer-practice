@@ -40,6 +40,9 @@ public class Controller {
         graph = new GraphController();
         graph.readGraphFromWindow(window.getText());
         graph.drawGraph(pane);
+        //Vertex vertexA = graph.graph.findVertex('a');
+        //Vertex vertexB = graph.graph.findVertex('b');
+        //graph.runningAlgorithmAStar(vertexA, vertexB);
 //        readFromFile();
     }
 
@@ -48,6 +51,11 @@ public class Controller {
         graph = new GraphController();
         graph.readGraphFromFile(fileName);
         graph.drawGraph(pane);
+    }
+
+    @FXML
+    public void mouseRightButton(MouseEvent event){
+        
     }
 
     @FXML
