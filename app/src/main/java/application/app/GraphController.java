@@ -3,8 +3,11 @@ package application.app;
 //import project.application.canvas.EdgeDrawable;
 //import project.application.canvas.VertexDrawable;
 import javafx.event.EventHandler;
+import javafx.scene.effect.Bloom;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 
 // files
 import java.io.BufferedReader;
@@ -15,12 +18,15 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Set;
 
 public class GraphController { //для считывания графа
     ArrayList<VertexDrawable> vertexesDrawable;
     Graph graph;
     ArrayList<EdgeDrawable> edgesDrawable;
     AStar aStar;
+    Vertex chosen1, chosen2;
 
     public GraphController(){
         vertexesDrawable = new ArrayList<VertexDrawable>();
@@ -28,12 +34,67 @@ public class GraphController { //для считывания графа
         edgesDrawable = new ArrayList<EdgeDrawable>();
     }
 
+    public void drawVertex(Pane pane, Vertex vertex){
+        graph.addVertex(vertex);
+        VertexDrawable drawableVertex = new VertexDrawable(vertex);
+        vertexesDrawable.add(drawableVertex);
+        drawGraph(pane);
+        setEventHandlers();
+    }
+
+    private VertexDrawable findVertex(Vertex vertex) {
+        for(VertexDrawable v: vertexesDrawable) {
+            if (v.getVertex() == vertex) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    private EdgeDrawable findEdge(Vertex start, Vertex finish) {
+        for(EdgeDrawable e: edgesDrawable){
+            if(e.cmpBoth(start, finish)){
+                return e;
+            }
+        }
+        return null;
+    }
     public void runningAlgorithmAStar(Vertex first, Vertex second) {
+        for (VertexDrawable v : vertexesDrawable){
+            v.getView().setFill(Paint.valueOf("#d5b8e6"));
+        }
+        for (EdgeDrawable e : edgesDrawable) {
+            e.getView().setStroke(Paint.valueOf("#806b8d"));
+        }
         ArrayList<Vertex> solution = new ArrayList<>();
         aStar = new AStar();
-        solution = aStar.a_star_public(first, second, graph.getVertexes());
+        if (chosen1 != null && chosen2 != null) {
+            solution = aStar.a_star_public(chosen1, chosen2, graph.getVertexes());
+            VertexDrawable vertex1 = findVertex(chosen1);
+            VertexDrawable vertex2 = findVertex(chosen2);
+            if(vertex1 != null){
+                vertex1.getView().setEffect(null);
+            }
+            if (vertex2 != null) {
+                vertex2.getView().setEffect(null);
+            }
+            chosen1 = null;
+            chosen2 = null;
+        } else {
+            return;
+        }
+
         for (Vertex i : solution) {
-            System.out.print(i.getName());
+            VertexDrawable v = findVertex(i);
+            if (v != null) {
+                v.getView().setFill(Paint.valueOf("#0cda73"));
+            }
+            for(Vertex child : i.getNeighbours().keySet()){
+                EdgeDrawable e = findEdge(i, child);
+                if(e != null && solution.contains(child) && child != solution.get(0)) {
+                    e.getView().setStroke(Paint.valueOf("#0a9a50"));
+                }
+            }
         }
     }
 
@@ -130,6 +191,54 @@ public class GraphController { //для считывания графа
                     y[0] = v.getView().getLayoutY() - mouseEvent.getSceneY();
                 }
             });
+//            if (v.getView().getOnMouseClicked() == null)
+            v.getView().setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if(mouseEvent.getButton() == MouseButton.PRIMARY & mouseEvent.getClickCount() == 2){
+                        if (chosen1 == v.getVertex()) {
+                            VertexDrawable vertex1 = findVertex(chosen1);
+                            if(vertex1 != null){
+                                vertex1.getView().setEffect(null);
+                            }
+                            chosen1 = null;
+                            return;
+                        } else if (chosen2 == v.getVertex()) {
+                            VertexDrawable vertex2 = findVertex(chosen2);
+                            if(vertex2 != null){
+                                vertex2.getView().setEffect(null);
+                            }
+                            chosen2 = null;
+                            return;
+                        }
+                        if(chosen1 == null) {
+                            chosen1 = v.getVertex();
+                            Bloom bloom = new Bloom();
+                            bloom.setThreshold(0);
+                            v.getView().setEffect(bloom);
+                        } else if (chosen2 == null) {
+                            Bloom bloom = new Bloom();
+                            bloom.setThreshold(0);
+                            v.getView().setEffect(bloom);
+                            chosen2 = v.getVertex();
+                        } else {
+                            VertexDrawable vertex1 = findVertex(chosen1);
+                            VertexDrawable vertex2 = findVertex(chosen2);
+                            if(vertex1 != null){
+                                vertex1.getView().setEffect(null);
+                            }
+                            if (vertex2 != null) {
+                                vertex2.getView().setEffect(null);
+                            }
+                            chosen1 = v.getVertex();
+                            Bloom bloom = new Bloom();
+                            bloom.setThreshold(0);
+                            v.getView().setEffect(bloom);
+                            chosen2 = null;
+                        }
+                    }
+                }
+            });
             v.getView().setOnMouseDragged(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
@@ -154,11 +263,60 @@ public class GraphController { //для считывания графа
         }
     }
 
-    public void drawVertex(Pane pane, Vertex vertex){
-        graph.addVertex(vertex);
-        VertexDrawable drawableVertex = new VertexDrawable(vertex);
-        vertexesDrawable.add(drawableVertex);
-        drawGraph(pane);
-        setEventHandlers();
+    public void addEdge(double weight) {
+        // нужно считать вес
+        if (chosen1 != null && chosen2 != null) {
+            graph.addEdge(chosen1, chosen2, weight);
+            EdgeDrawable edgeDrawable = findEdge(chosen1, chosen2);
+            if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {
+                edgeDrawable.setReversedDirection(chosen1, chosen2, weight);
+            } else if (edgeDrawable == null) {
+                edgesDrawable.add(new EdgeDrawable(chosen1, chosen2, weight));
+            }
+        }
+    }
+
+    public void deleteEdge() {
+        if (chosen1 != null && chosen2 != null) {
+            EdgeDrawable edgeDrawable = findEdge(chosen1, chosen2);
+            if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {
+                chosen1.deleteNeighbour(chosen2);
+                if (!edgeDrawable.isReverse(chosen1, chosen2)) {
+                    edgesDrawable.remove(edgeDrawable);
+                }
+            } else if (edgeDrawable != null && edgeDrawable.isTwoDirectional()) {
+                edgeDrawable.deleteOneWay(chosen1, chosen2);
+                chosen1.deleteNeighbour(chosen2);
+            }
+        }
+    }
+
+    public void deleteVertex(VertexDrawable vertexDrawable) {
+        Vertex vertex = vertexDrawable.getVertex();
+
+        for (Vertex v : graph.getVertexes()) {
+            EdgeDrawable edgeDrawable = findEdge(vertex, v);
+            if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {
+                vertex.deleteNeighbour(v);
+                if (!edgeDrawable.isReverse(vertex, v)) {
+                    edgesDrawable.remove(edgeDrawable);
+                }
+            } else if (edgeDrawable != null && edgeDrawable.isTwoDirectional()) {
+                edgeDrawable.deleteOneWay(vertex, v);
+                vertex.deleteNeighbour(v);
+            }
+            edgeDrawable = findEdge(v, vertex);
+            if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {
+                vertex.deleteNeighbour(v);
+                if (!edgeDrawable.isReverse(v, vertex)) {
+                    edgesDrawable.remove(edgeDrawable);
+                }
+            } else if (edgeDrawable != null && edgeDrawable.isTwoDirectional()) {
+                edgeDrawable.deleteOneWay(v, vertex);
+                vertex.deleteNeighbour(v);
+            }
+        }
+        vertexesDrawable.remove(vertexDrawable);
+        graph.deleteVertex(vertex);
     }
 }

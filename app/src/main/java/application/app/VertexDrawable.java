@@ -17,7 +17,7 @@ public class VertexDrawable {
     private Text nameCircle;
     private Vertex vertex;
     private Coordinates coordinates;
-
+    private final static double radiusOfVertexCircle = 18.0;
     public VertexDrawable(Vertex vertex){
         this.vertex = vertex;
         name = vertex.getName();
@@ -25,8 +25,8 @@ public class VertexDrawable {
         vertexCircle = new Circle();
         vertexCircle.setLayoutX((Double) coordinates.getX());
         vertexCircle.setLayoutY((Double) coordinates.getY());
-        vertexCircle.setRadius(15);
-        vertexCircle.setFill(Paint.valueOf("#3fbab4"));
+        vertexCircle.setRadius(radiusOfVertexCircle);
+        vertexCircle.setFill(Paint.valueOf("#d5b8e6"));
         nameCircle = new Text(String.valueOf(name));
         nameCircle.setX((Double) coordinates.getX());
         nameCircle.setY((Double) coordinates.getY());
@@ -36,6 +36,9 @@ public class VertexDrawable {
                 vertexCircle.setCursor(Cursor.HAND);
             }
         });
+    }
+    public void setName(String name){
+        nameCircle.setText(name);
     }
 
     public Circle getView(){

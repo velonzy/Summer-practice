@@ -5,7 +5,10 @@ import java.util.HashMap;
 
 public class Graph {
     private ArrayList<Vertex> vertexes;
+
     private HashMap<Character, Boolean> availableNames;
+
+
 
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
@@ -14,6 +17,18 @@ public class Graph {
     public Graph(){
         vertexes = new ArrayList<Vertex>();
         availableNames = new HashMap<Character, Boolean>();
+        for(char letter = 'a'; letter <= 'z'; letter++){
+            availableNames.put(letter, true);
+        }
+    }
+
+    public Character getAvailableName(){
+        for(char letter = 'a'; letter <= 'z'; letter++){
+            if (availableNames.get(letter).equals(true)) {
+                return letter;
+            }
+        }
+        return '*';
     }
 
     void addVertex(char vertex, double x, double y){
