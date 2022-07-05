@@ -3,6 +3,7 @@ package application.app;
 //import project.application.canvas.EdgeDrawable;
 //import project.application.canvas.VertexDrawable;
 import javafx.event.EventHandler;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -26,6 +27,33 @@ public class GraphController { //для считывания графа
         vertexesDrawable = new ArrayList<VertexDrawable>();
         graph = new Graph();
         edgesDrawable = new ArrayList<EdgeDrawable>();
+    }
+
+    private VertexDrawable findVertex(Vertex vertex) {
+        for(VertexDrawable v: vertexesDrawable) {
+            if (v.getVertex() == vertex) {
+                return v;
+            }
+        }
+        return null;
+    }
+
+    private EdgeDrawable findEdge(Vertex vertex) {
+        for(EdgeDrawable e: edgesDrawable) {
+            if(e.cmpFirst(vertex) || e.cmpSecond(vertex)){
+                return e;
+            }
+        }
+        return null;
+    }
+
+    private EdgeDrawable findEdge(Vertex start, Vertex finish) {
+        for(EdgeDrawable e: edgesDrawable){
+            if(e.cmpBoth(start, finish)){
+                return e;
+            }
+        }
+        return null;
     }
 
     public void runningAlgorithmAStar(Vertex first, Vertex second) {
@@ -140,8 +168,31 @@ public class GraphController { //для считывания графа
                     }
                 }
             });
+//            v.getView().setOnMouseClicked(new EventHandler<MouseEvent>() {
+//                @Override
+//                public void handle(MouseEvent mouseEvent){
+//                    if(mouseEvent.getButton() == MouseButton.SECONDARY){
+//
+//
+//                        /*for (Vertex neighbor: graph.getVertexes()){
+//                            if (neighbor.getNeighbours().containsKey(v.getVertex())){
+//                                EdgeDrawable fromNeiToV = findEdge(neighbor, v.getVertex());
+//                                if (fromNeiToV != null){
+//                                    fromNeiToV.deleteOneWay(neighbor, v.getVertex());
+//                                }
+//                            }
+//                        }
+//                        for (EdgeDrawable edge: )
+//
+//                        graph.deleteVertex(v.getVertex());
+//
+//                         */
+//                    }
+//                }
+//            });
         }
     }
+
     public void drawGraph(Pane pane){
         pane.getChildren().clear();
         for (VertexDrawable vertex: vertexesDrawable){

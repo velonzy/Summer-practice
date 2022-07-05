@@ -93,6 +93,10 @@ public class EdgeDrawable {
         return second;
     }
 
+    public boolean cmpBoth(Vertex first, Vertex second) {
+        return cmpFirst(first) && cmpSecond(second);
+    }
+
     public void moveLine() {
         double x1, x2, y1, y2;
         x1 = first.getCoordinates().getX();

@@ -18,14 +18,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/Ксения/IdeaProjects/ДЗ3"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Ксения/IdeaProjects/ДЗ3&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.Main">
     <configuration name="HelloApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="application.app.HelloApplication" />
@@ -68,7 +68,9 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1657025575191</updated>
-      <workItem from="1657025576476" duration="9474000" />
+      <workItem from="1657025576476" duration="17539000" />
+      <workItem from="1657045144834" duration="284000" />
+      <workItem from="1657051953677" duration="9615000" />
     </task>
     <servers />
   </component>

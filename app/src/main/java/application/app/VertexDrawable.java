@@ -46,6 +46,10 @@ public class VertexDrawable {
         return nameCircle;
     }
 
+    public void setName(String name){
+        nameCircle.setText(name);
+    }
+
     public Vertex getVertex() {
         return vertex;
     }

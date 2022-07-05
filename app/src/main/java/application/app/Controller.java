@@ -5,16 +5,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 import java.io.IOException;
+import java.util.Optional;
 
 public class Controller {
 
@@ -25,6 +25,9 @@ public class Controller {
     private Button btnAddVertex, btnAddEdge, btnDeleteVertex, btnDeleteEdge, btnClear;
 
     @FXML
+    private Button btnStepBack, btnStepForward, btnToEnd;
+
+    @FXML
     private TextArea window;
 
     @FXML
@@ -32,14 +35,31 @@ public class Controller {
 
     private GraphController graph;
 
-//    @FXML
-//    private ContextMenu contextMenu;
-//
-//    @FXML
-//    private MenuItem addVertex;
+    @FXML
+    private ContextMenu contextMenu, contextMenuPane;
+
+    @FXML
+    private MenuItem menuItemRenameVertex, menuItemDeleteVertex;
+
+    @FXML
+    private MenuItem menuItemAddVertex;
+
+    @FXML
+    private TextInputDialog dialogRenameVertex, dialogSetWeight;
+
+
     @FXML
     public void initialize(){
         graph = new GraphController();
+        contextMenu = new ContextMenu();
+        contextMenuPane = new ContextMenu();
+        menuItemRenameVertex = new MenuItem("Rename vertex");
+        menuItemDeleteVertex = new MenuItem("Delete vertex");
+        contextMenu.getItems().addAll(menuItemRenameVertex, menuItemDeleteVertex);
+        dialogRenameVertex = new TextInputDialog();
+        dialogSetWeight = new TextInputDialog();
+        menuItemAddVertex = new MenuItem("Add vertex");
+        contextMenuPane.getItems().add(menuItemAddVertex);
     }
 
     @FXML
@@ -70,17 +90,58 @@ public class Controller {
 
     @FXML
     public void mouseClick(MouseEvent event){
-        if(event.getButton() == MouseButton.PRIMARY){
-            if(event.getClickCount() == 2){
+        if (event.getButton() == MouseButton.PRIMARY){
+            if (event.getClickCount() == 1) {
+                if (contextMenu.isShowing()){
+                    contextMenu.hide();
+                }
+            } else if (event.getClickCount() == 2){
                 double x = event.getSceneX() - 174;
                 double y = event.getScreenY() - 112;
-                System.out.println(x);
-                System.out.println(y);
-                Vertex vertex = new Vertex('l', x, y);
+                char name = graph.graph.getAvailableName();
+                Vertex vertex = new Vertex(name, x, y);
                 graph.drawVertex(pane, vertex);
                 graph.drawGraph(pane);
             }
+        } else if (event.getButton() == MouseButton.SECONDARY){
+            for (VertexDrawable vertexDrawable: graph.vertexesDrawable) {
+                vertexDrawable.getView().setOnMouseClicked(new EventHandler<MouseEvent>() {
+
+                    @Override
+                    public void handle(MouseEvent mouseEvent) {
+                        contextMenu.show(pane, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                        menuItemRenameVertex.setOnAction((ActionEvent actionEvent) -> {
+                            if (contextMenu.isShowing()){
+                                contextMenu.hide();
+                            }
+                            dialogRenameVertex.setTitle("Rename vertex");
+                            dialogRenameVertex.setHeaderText("Enter vertex name:");
+                            dialogRenameVertex.setContentText("Name:");
+                            Optional <String> newName = dialogRenameVertex.showAndWait();
+                            newName.ifPresent(name -> {
+                                vertexDrawable.setName(String.valueOf(name));
+                                //vertexDrawable.getVertex().
+                            });
+                        });
+
+                        menuItemDeleteVertex.setOnAction((ActionEvent actionEvent) -> {
+                            if (contextMenu.isShowing()){
+                                contextMenu.hide();
+                            }
+                            //тут пишешь удаление
+                        });
+                    }
+                });
+            }
+
         }
+    }
+
+    @FXML
+    public void stepByStepSolution(){
+        btnStepBack.setVisible(true);
+        btnStepForward.setVisible(true);
+        btnToEnd.setVisible(true);
     }
 
     @FXML
