@@ -3,7 +3,7 @@ package application.app;
 import java.util.HashMap;
 
 public class Vertex {
-    private char name;
+    private final char name;
 
     private Coordinates<Double> coordinates;
 
@@ -25,10 +25,6 @@ public class Vertex {
 
     public char getName(){
         return name;
-    }
-
-    public void setName(char name){
-        this.name = name;
     }
 
     HashMap<Vertex, Double> getNeighbours(){

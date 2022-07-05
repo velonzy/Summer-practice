@@ -11,7 +11,7 @@ public class EdgeDrawable {
     private boolean directionFromFirstToSecond, directionFromSecondToFirst;
     private Line edgeLine;
     private Text weightView;
-    private final static double radiusOfVertexCircle = 15.0;
+    private final static double radiusOfVertexCircle = 18.0;
 
     public EdgeDrawable(Vertex first, Vertex second, double weight){
         this.first = first;
@@ -19,7 +19,7 @@ public class EdgeDrawable {
         weightFromFirstToSecond = weight;
         directionFromFirstToSecond = true;
         edgeLine = new Line();
-        weightView = new Text("|" + Double.toString(weightFromFirstToSecond) + ">");
+        weightView = new Text(first.getName() + "->" + second.getName() + ":" + Double.toString(weightFromFirstToSecond));
         double x1, x2, y1, y2;
         x1 = first.getCoordinates().getX();
         x2 = second.getCoordinates().getX();
@@ -42,25 +42,40 @@ public class EdgeDrawable {
             weightView.setX(x2 - Math.abs(x2 - x1) / 2);
         }
         weightView.setY((y1 + y2) / 2 - 5);
-        edgeLine.setStroke(Paint.valueOf("#3fbab4"));
+        edgeLine.setStroke(Paint.valueOf("#806b8d"));
     }
 
     public void setReversedDirection(double weight){
         weightFromSecondToFirst = weight;
         directionFromSecondToFirst = true;
-        weightView.setText("<" + Double.toString(weightFromSecondToFirst) + "|" + Double.toString(weightFromFirstToSecond) + ">");
+        weightView.setText(second.getName() + "->" + first.getName() + ":" + Double.toString(weightFromSecondToFirst) +
+                "\n" + first.getName() + "->" + second.getName() + ":" + Double.toString(weightFromFirstToSecond));
+    }
+
+    public void setReversedDirection(Vertex start, Vertex finish, double weight){
+        if (start == first && finish == second) {
+            return;
+        }
+        weightFromSecondToFirst = weight;
+        directionFromSecondToFirst = true;
+        weightView.setText(second.getName() + "->" + first.getName() + ":" + Double.toString(weightFromSecondToFirst) +
+                "\n" + first.getName() + "->" + second.getName() + ":" + Double.toString(weightFromFirstToSecond));
     }
 
     public void deleteOneWay(Vertex first, Vertex second){
         if (first == this.first & second == this.second) {
             directionFromFirstToSecond = false;
             weightFromFirstToSecond = 0;
-            weightView.setText("<" + Double.toString(weightFromSecondToFirst) + "|");
+            weightView.setText(second.getName() + "->" + first.getName() + ":" + Double.toString(weightFromSecondToFirst));
         } else if(first == this.second & second == this.first) {
             directionFromSecondToFirst = false;
             weightFromSecondToFirst = 0;
-            weightView.setText("|" + Double.toString(weightFromFirstToSecond) + ">");
+            weightView.setText(first.getName() + "->" + second.getName() + ":" + Double.toString(weightFromFirstToSecond));
         }
+    }
+
+    public boolean isTwoDirectional() {
+        return directionFromFirstToSecond && directionFromSecondToFirst;
     }
 
     public boolean isOnlyOneWay() {
@@ -68,7 +83,7 @@ public class EdgeDrawable {
     }
 
     public boolean isReverse(Vertex first, Vertex second) {
-        return (this.first == second && this.second == first);
+        return (cmpFirst(second) && cmpSecond(first));
     }
 
     public boolean cmpFirst(Vertex other) {
@@ -77,6 +92,10 @@ public class EdgeDrawable {
 
     public boolean cmpSecond(Vertex other) {
         return second == other;
+    }
+
+    public boolean cmpBoth(Vertex first, Vertex second) {
+        return cmpFirst(first) && cmpSecond(second) || isReverse(first, second);
     }
 
     public Text getName(){
@@ -91,10 +110,6 @@ public class EdgeDrawable {
 
     public Vertex getSecond() {
         return second;
-    }
-
-    public boolean cmpBoth(Vertex first, Vertex second) {
-        return cmpFirst(first) && cmpSecond(second);
     }
 
     public void moveLine() {

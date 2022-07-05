@@ -5,7 +5,10 @@ import java.util.HashMap;
 
 public class Graph {
     private ArrayList<Vertex> vertexes;
+
     private HashMap<Character, Boolean> availableNames;
+
+
 
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
@@ -19,13 +22,20 @@ public class Graph {
         }
     }
 
+    public Character getAvailableName(){
+        for(char letter = 'a'; letter <= 'z'; letter++){
+            if (availableNames.get(letter).equals(true)) {
+                return letter;
+            }
+        }
+        return '*';
+    }
+
     void addVertex(char vertex, double x, double y){
-        availableNames.put(vertex, false);
         vertexes.add(new Vertex(vertex, x, y));
     }
 
     void addVertex(Vertex vertex){
-        availableNames.put(vertex.getName(), false);
         vertexes.add(vertex);
     }
 
@@ -34,7 +44,6 @@ public class Graph {
     }
 
     void deleteVertex(char vertex){
-        availableNames.put(vertex, true);
         for(Vertex v : vertexes){
             if (v.getName() == vertex){
                 for(Vertex subV : vertexes){
@@ -47,7 +56,6 @@ public class Graph {
     }
 
     void deleteVertex(Vertex vertex){
-        availableNames.put(vertex.getName(), true);
         for(Vertex subV : vertexes){
             subV.getNeighbours().remove(vertex);
         }
@@ -82,15 +90,6 @@ public class Graph {
             }
         }
         return null;
-    }
-
-    public Character getAvailableName(){
-        for(char letter = 'a'; letter <= 'z'; letter++){
-            if (availableNames.get(letter).equals(true)) {
-                return letter;
-            }
-        }
-        return '*';
     }
 
     void clearGraph(){

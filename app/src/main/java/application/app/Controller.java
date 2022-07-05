@@ -6,26 +6,28 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.stage.Popup;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.stage.Window;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.util.Optional;
 
 public class Controller {
 
+    private final Desktop desktop = Desktop.getDesktop(); // информация об устройстве для считывания файла
     @FXML
     private Button btnA, btnStart, btnReadFromFile, btnReadFromWindow, btnSBS;
 
     @FXML
     private Button btnAddVertex, btnAddEdge, btnDeleteVertex, btnDeleteEdge, btnClear;
-
-    @FXML
-    private Button btnStepBack, btnStepForward, btnToEnd;
 
     @FXML
     private TextArea window;
@@ -36,13 +38,10 @@ public class Controller {
     private GraphController graph;
 
     @FXML
-    private ContextMenu contextMenu, contextMenuPane;
+    private ContextMenu contextMenu;
 
     @FXML
     private MenuItem menuItemRenameVertex, menuItemDeleteVertex;
-
-    @FXML
-    private MenuItem menuItemAddVertex;
 
     @FXML
     private TextInputDialog dialogRenameVertex, dialogSetWeight;
@@ -52,40 +51,11 @@ public class Controller {
     public void initialize(){
         graph = new GraphController();
         contextMenu = new ContextMenu();
-        contextMenuPane = new ContextMenu();
         menuItemRenameVertex = new MenuItem("Rename vertex");
         menuItemDeleteVertex = new MenuItem("Delete vertex");
         contextMenu.getItems().addAll(menuItemRenameVertex, menuItemDeleteVertex);
         dialogRenameVertex = new TextInputDialog();
         dialogSetWeight = new TextInputDialog();
-        menuItemAddVertex = new MenuItem("Add vertex");
-        contextMenuPane.getItems().add(menuItemAddVertex);
-    }
-
-    @FXML
-    public void switchToGraphWindow(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Graph window.fxml"));
-        Stage stage = (Stage) btnStart.getScene().getWindow();
-        stage.setScene(new Scene(root, 800, 550));
-    }
-
-    @FXML
-    public void readFromWindow() {
-        graph = new GraphController();
-        graph.readGraphFromWindow(window.getText());
-        graph.drawGraph(pane);
-//        Vertex vertexA = graph.graph.findVertex('a');
-//        Vertex vertexB = graph.graph.findVertex('z');
-//        graph.runningAlgorithmAStar(vertexA, vertexB);
-//        readFromFile();
-    }
-
-    @FXML
-    public void readFromFile() throws IOException {
-        String fileName = "/home/anna/IdeaProjects/app/src/main/resources/data.txt";
-        graph = new GraphController();
-        graph.readGraphFromFile(fileName);
-        graph.drawGraph(pane);
     }
 
     @FXML
@@ -117,10 +87,9 @@ public class Controller {
                             dialogRenameVertex.setTitle("Rename vertex");
                             dialogRenameVertex.setHeaderText("Enter vertex name:");
                             dialogRenameVertex.setContentText("Name:");
-                            Optional <String> newName = dialogRenameVertex.showAndWait();
+                            Optional<String> newName = dialogRenameVertex.showAndWait();
                             newName.ifPresent(name -> {
                                 vertexDrawable.setName(String.valueOf(name));
-                                //vertexDrawable.getVertex().
                             });
                         });
 
@@ -128,7 +97,8 @@ public class Controller {
                             if (contextMenu.isShowing()){
                                 contextMenu.hide();
                             }
-                            //тут пишешь удаление
+                            graph.deleteVertex(vertexDrawable);
+                            graph.drawGraph(pane);
                         });
                     }
                 });
@@ -136,12 +106,34 @@ public class Controller {
 
         }
     }
+    @FXML
+    public void switchToGraphWindow(ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("Graph window.fxml"));
+        Stage stage = (Stage) btnStart.getScene().getWindow();
+        stage.setScene(new Scene(root, 800, 550));
+    }
 
     @FXML
-    public void stepByStepSolution(){
-        btnStepBack.setVisible(true);
-        btnStepForward.setVisible(true);
-        btnToEnd.setVisible(true);
+    public void readFromWindow() {
+        graph = new GraphController();
+        graph.readGraphFromWindow(window.getText());
+        graph.drawGraph(pane);
+    }
+
+    @FXML
+    public void readFromFile() throws IOException {
+        // добавить сисключения на тип файла
+        FileChooser fileChooser = new FileChooser();
+        File file = fileChooser.showOpenDialog(pane.getScene().getWindow());
+        String path;
+        if(file != null) {
+            path = file.getPath();
+        } else {
+            return;
+        }
+        graph = new GraphController();
+        graph.readGraphFromFile(path);
+        graph.drawGraph(pane);
     }
 
     @FXML
@@ -173,10 +165,26 @@ public class Controller {
     }
 
     @FXML
-    public void switchToGraph(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Start window.fxml"));
-        Stage stage = (Stage) btnA.getScene().getWindow();
-        stage.setScene(new Scene(root, 800, 550));
+    public void runAStar(ActionEvent event) throws IOException {
+        Vertex vertexA = graph.graph.findVertex('a');
+        Vertex vertexB = graph.graph.findVertex('z');
+        graph.runningAlgorithmAStar(vertexA, vertexB);
+//        Parent root = FXMLLoader.load(getClass().getResource("Start window.fxml"));
+//        Stage stage = (Stage) btnA.getScene().getWindow();
+//        stage.setScene(new Scene(root, 800, 550));
+    }
+
+    @FXML
+    public void addEdgeClicked(ActionEvent event) throws IOException{
+        // вот тут нужен вес!!!!!!!
+        graph.addEdge(weight);
+        graph.drawGraph(pane);
+    }
+
+    @FXML
+    public void deleteEdgeClicked(ActionEvent event) {
+        graph.deleteEdge();
+        graph.drawGraph(pane);
     }
 
 }
