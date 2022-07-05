@@ -37,6 +37,10 @@ public class Controller {
 //
 //    @FXML
 //    private MenuItem addVertex;
+    @FXML
+    public void initialize(){
+        graph = new GraphController();
+    }
 
     @FXML
     public void switchToGraphWindow(ActionEvent event) throws IOException {
@@ -65,21 +69,18 @@ public class Controller {
     }
 
     @FXML
-    public void mouseClickButton(MouseEvent event){
-        ContextMenu contextMenu = new ContextMenu();
-        MenuItem addVertex = new MenuItem("Add vertex");
-        contextMenu.getItems().add(addVertex);
-        pane.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
-
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                if(mouseEvent.getButton() == MouseButton.SECONDARY){
-                    contextMenu.show(pane, mouseEvent.getScreenX(), mouseEvent.getScreenY());
-                } else if(mouseEvent.getButton() == MouseButton.PRIMARY){
-                    contextMenu.hide();
-                }
+    public void mouseClick(MouseEvent event){
+        if(event.getButton() == MouseButton.PRIMARY){
+            if(event.getClickCount() == 2){
+                double x = event.getSceneX() - 174;
+                double y = event.getScreenY() - 112;
+                System.out.println(x);
+                System.out.println(y);
+                Vertex vertex = new Vertex('l', x, y);
+                graph.drawVertex(pane, vertex);
+                graph.drawGraph(pane);
             }
-        });
+        }
     }
 
     @FXML

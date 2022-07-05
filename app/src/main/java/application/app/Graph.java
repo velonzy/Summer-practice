@@ -1,9 +1,11 @@
 package application.app;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Graph {
     private ArrayList<Vertex> vertexes;
+    private HashMap<Character, Boolean> availableNames;
 
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
@@ -11,6 +13,7 @@ public class Graph {
 
     public Graph(){
         vertexes = new ArrayList<Vertex>();
+        availableNames = new HashMap<Character, Boolean>();
     }
 
     void addVertex(char vertex, double x, double y){

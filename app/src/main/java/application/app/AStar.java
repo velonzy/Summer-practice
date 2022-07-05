@@ -3,107 +3,90 @@ package application.app;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 public class AStar {
-    int[] closed; //Список пройдённых вершин
-    int[] open; // Очередь вершин
-    HashMap<Vertex, Double> f = new HashMap<>();
-    HashMap<Vertex, Double> g = new HashMap<>();
-    HashMap<Vertex, Boolean> in_open = new HashMap<>();
-    HashMap<Vertex, Boolean> in_closed = new HashMap<>();
-    HashMap<Vertex, Vertex> from = new HashMap<>();
+    HashMap<Vertex, Double> f;
+    HashMap<Vertex, Double> g;
+    ArrayList<Vertex> in_open;
+    ArrayList<Vertex> in_closed;
+    HashMap<Vertex, Vertex> from;
+    List<ArrayList<Vertex>> open;
+    List<ArrayList<Vertex>> closed;
 
-    private double h(Vertex a, Vertex b){ // Эвристическая функция
+    public AStar(){
+        f = new HashMap<Vertex, Double>();
+        g = new HashMap<Vertex, Double>();
+        in_open = new ArrayList<Vertex>();
+        in_closed = new ArrayList<Vertex>();
+        from = new HashMap<Vertex, Vertex>();
+        open = new ArrayList();
+        closed = new ArrayList();
+    }
+    private double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
         return Math.abs( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
                 Math.pow(a.getCoordinates().getY() - b.getCoordinates().getY(), 2));
     }
 
-    private int find(char lttr, ArrayList<Vertex> graph){
-        for (int i = 0; i < graph.size(); i++){
-            if (graph.get(i).getName() == lttr)
-                return i;
-        }
-        return -1;
-    }
-
-    private void delete_open( int index){
-        for (int i = 0; i < open.length; i++){
-            if (open[i] == index)
-            {
-                int[] result = new int[open.length - 1];
-                System.arraycopy(open, 0, result, 0, i);
-                System.arraycopy(open, i + 1, result, i, open.length - i - 1);
-                open = result;
+    private Vertex min_f(ArrayList<Vertex> graph){
+        Double min = f.get(in_open.get(0));
+        Vertex min_v = in_open.get(0);
+        for(int i = 0; i < in_open.size(); i++){
+            if (f.get(in_open.get(i)) < min) {
+                min = f.get(in_open.get(i));
+                min_v = in_open.get(i);
             }
         }
-    }
-    private int min_f(ArrayList<Vertex> graph){
-        if (open.length <= 0) return -1;
-        Double min = f.get(graph.get(open[0]));
-        int index_min = open[0];
-        for(int i = 0; i < open.length; i++){
-            if (f.get(graph.get(open[i])) < min ||
-                    ( f.get(graph.get(open[i])).equals(min) &&
-                            (int)(graph.get(open[i]).getName()) <
-                                    (int)(graph.get(open[i]).getName()))) {
-                min = f.get(graph.get(open[i]));
-                index_min = open[i];
-            }
-        }
-        return index_min;
+        return min_v;
     }
 
-    private int a_star(Vertex start, Vertex finish, ArrayList<Vertex> graph){
-        int current_ind;
+    private Vertex a_star(Vertex start, Vertex finish, ArrayList<Vertex> graph){
         Vertex current;
-        open = new int[1];
-        closed = new int[0];
-        open[0] = find(start.getName(), graph);
-        in_open.put(start, true);
+        in_open.add(start);
         g.put(start, (double)0); f.put(start, g.get(start) + h(start, finish));
-        while (open.length > 0){
-            current_ind = min_f(graph);
-            current = graph.get(current_ind);
-            if (current == finish) return current_ind;
-            delete_open(current_ind);
-            in_open.put(current, false);
-            int[] destArray2 = Arrays.copyOf(closed, closed.length + 1);
-            destArray2[closed.length] = current_ind;
-            closed = destArray2;
-            in_closed.put(current, true);
+        while (in_open.size() > 0){
+            current = min_f(graph);
+            if (current == finish) return finish;
+            in_open.remove(current);
+            in_closed.add(current);
             for (HashMap.Entry<Vertex, Double> neighbour : current.getNeighbours().entrySet()) {
-                int neigh_index = find(neighbour.getKey().getName(), graph);
                 double temp_g = g.get(current) + neighbour.getValue();
-                if (( !in_open.containsKey(neighbour.getKey()) || in_open.containsKey(neighbour.getKey()) && !in_open.get(neighbour.getKey()))
-                        && ( !in_closed.containsKey(neighbour.getKey()) || in_closed.containsKey(neighbour.getKey())&& !in_closed.get(neighbour.getKey()))
+                if ( !in_open.contains(neighbour.getKey())
+                        &&  !in_closed.contains(neighbour.getKey())
                         || (g.containsKey(neighbour.getKey()) && temp_g < g.get(neighbour.getKey()))){
                     from.put(neighbour.getKey(), current);
                     g.put(neighbour.getKey(), temp_g);
                     f.put(neighbour.getKey(), g.get(neighbour.getKey()) + h(neighbour.getKey(), finish));
                 }
-                if (( !in_open.containsKey(neighbour.getKey()) || in_open.containsKey(neighbour.getKey()) && !in_open.get(neighbour.getKey()))
-                        && ( !in_closed.containsKey(neighbour.getKey()) || in_closed.containsKey(neighbour.getKey())&& !in_closed.get(neighbour.getKey()))){
-                    in_open.put(neighbour.getKey(), true);
-                    int[] destArray3 = Arrays.copyOf(open, open.length + 1);
-                    open = destArray3;
-                    open[open.length - 1] = neigh_index;
+                if (!in_open.contains(neighbour.getKey())
+                        &&  !in_closed.contains(neighbour.getKey())){
+                    in_open.add(neighbour.getKey());
                 }
             }
+            ArrayList <Vertex> arr_open = new ArrayList<>(in_open);
+            open.add(arr_open);
+            ArrayList <Vertex> arr_closed = new ArrayList<>(in_closed);
+            closed.add(arr_closed);
         }
-        return -1;
+        return null;
     }
 
     public ArrayList<Vertex> a_star_public(Vertex start, Vertex finish, ArrayList<Vertex> graph){
         ArrayList<Vertex> solution = new ArrayList<Vertex>();
-        int goal = a_star(start, finish, graph);
-        if (goal < 0) return solution;
-        Vertex current = graph.get(goal);
-        solution.add(current);
-        while(from.containsKey(current)){
-            solution.add(0, from.get(current));
-            current = from.get(current);
+        Vertex goal = a_star(start, finish, graph);
+        if (goal == null) return solution;
+        solution.add(goal);
+        while(from.containsKey(goal)){
+            solution.add(0, from.get(goal));
+            goal = from.get(goal);
         }
         return solution;
     }
 
+    public List<ArrayList<Vertex>> getOpen(){
+        return open;
+    }
+    public List<ArrayList<Vertex>> getClose(){
+        return closed;
+    }
 }

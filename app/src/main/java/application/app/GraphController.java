@@ -22,6 +22,12 @@ public class GraphController { //для считывания графа
     ArrayList<EdgeDrawable> edgesDrawable;
     AStar aStar;
 
+    public GraphController(){
+        vertexesDrawable = new ArrayList<VertexDrawable>();
+        graph = new Graph();
+        edgesDrawable = new ArrayList<EdgeDrawable>();
+    }
+
     public void runningAlgorithmAStar(Vertex first, Vertex second) {
         ArrayList<Vertex> solution = new ArrayList<>();
         aStar = new AStar();
@@ -146,5 +152,13 @@ public class GraphController { //для считывания графа
             pane.getChildren().add(edge.getView());
             pane.getChildren().add(edge.getName());
         }
+    }
+
+    public void drawVertex(Pane pane, Vertex vertex){
+        graph.addVertex(vertex);
+        VertexDrawable drawableVertex = new VertexDrawable(vertex);
+        vertexesDrawable.add(drawableVertex);
+        drawGraph(pane);
+        setEventHandlers();
     }
 }
