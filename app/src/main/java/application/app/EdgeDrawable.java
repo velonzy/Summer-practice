@@ -123,8 +123,9 @@ public class EdgeDrawable {
 3
 a 200 300
 b 150 400
-c 600 200
+z 600 200
 a b 5
-b c 4.7
-c a 20
+b z 4.7
+z a 20
+a z 11
  */

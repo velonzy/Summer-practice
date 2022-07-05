@@ -70,7 +70,7 @@ public class GraphController { //для считывания графа
                 edgesDrawable.add(new EdgeDrawable(sVertex, fVertex, weight));
             }
         }
-       setEventHandlers();
+        setEventHandlers();
     }
 
     public void readGraphFromFile(String fileName) throws IOException {
