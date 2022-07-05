@@ -19,14 +19,14 @@ import java.util.ArrayList;
 public class GraphController { //для считывания графа
     ArrayList<VertexDrawable> vertexesDrawable;
     Graph graph;
-    AStar aStar;
     ArrayList<EdgeDrawable> edgesDrawable;
+    AStar aStar;
 
-    public void runningAlgorithmAStar(Vertex first, Vertex second){
+    public void runningAlgorithmAStar(Vertex first, Vertex second) {
         ArrayList<Vertex> solution = new ArrayList<>();
         aStar = new AStar();
         solution = aStar.a_star_public(first, second, graph.getVertexes());
-        for (Vertex i : solution){
+        for (Vertex i : solution) {
             System.out.print(i.getName());
         }
     }
@@ -59,32 +59,18 @@ public class GraphController { //для считывания графа
             sVertex = graph.findVertex(start);
             fVertex = graph.findVertex(finish); // добавить исключение, когда одно из них не найдено
             graph.addEdge(sVertex, fVertex, weight);
-            edgesDrawable.add(new EdgeDrawable(sVertex, fVertex, weight));
-        }
-
-        // добавлены функции реакции круга на перетаскивание мышью, меняются координаты вершины в окне,
-        // а также меняются координаты круга
-        for(VertexDrawable v: vertexesDrawable){
-            final Double[] x = new Double[1];
-            final Double[] y = new Double[1];
-            v.getView().setOnMousePressed(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    x[0] = v.getView().getLayoutX() - mouseEvent.getSceneX();
-                    y[0] = v.getView().getLayoutY() - mouseEvent.getSceneY();
+            boolean flag = false;
+            for (EdgeDrawable e: edgesDrawable) {
+                if (e.isReverse(sVertex, fVertex)) {
+                    e.setReversedDirection(weight);
+                    flag = true;
                 }
-            });
-            v.getView().setOnMouseDragged(new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(MouseEvent mouseEvent) {
-                    v.getVertex().setCoordinates(mouseEvent.getSceneX() + x[0], mouseEvent.getSceneY() + y[0]);
-                    v.moveCircle();
-                    for(EdgeDrawable e: edgesDrawable) {
-                        e.moveLine();
-                    }
-                }
-            });
+            }
+            if (!flag) {
+                edgesDrawable.add(new EdgeDrawable(sVertex, fVertex, weight));
+            }
         }
+       setEventHandlers();
     }
 
     public void readGraphFromFile(String fileName) throws IOException {
@@ -122,8 +108,34 @@ public class GraphController { //для считывания графа
             index ++;
         }
         br.close();
+        setEventHandlers();
     }
 
+    protected void setEventHandlers() {
+        // добавлены функции реакции круга на перетаскивание мышью, меняются координаты вершины в окне,
+        // а также меняются координаты круга
+        for(VertexDrawable v: vertexesDrawable){
+            final Double[] x = new Double[1];
+            final Double[] y = new Double[1];
+            v.getView().setOnMousePressed(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    x[0] = v.getView().getLayoutX() - mouseEvent.getSceneX();
+                    y[0] = v.getView().getLayoutY() - mouseEvent.getSceneY();
+                }
+            });
+            v.getView().setOnMouseDragged(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    v.getVertex().setCoordinates(mouseEvent.getSceneX() + x[0], mouseEvent.getSceneY() + y[0]);
+                    v.moveCircle();
+                    for(EdgeDrawable e: edgesDrawable) {
+                        e.moveLine();
+                    }
+                }
+            });
+        }
+    }
     public void drawGraph(Pane pane){
         pane.getChildren().clear();
         for (VertexDrawable vertex: vertexesDrawable){
