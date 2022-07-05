@@ -46,16 +46,17 @@ public class Controller {
     }
 
     @FXML
-    public void readFromWindow() throws IOException {
+    public void readFromWindow() {
         graph = new GraphController();
         graph.readGraphFromWindow(window.getText());
         graph.drawGraph(pane);
-        Vertex vertexA = graph.graph.findVertex('a');
-        Vertex vertexB = graph.graph.findVertex('z');
-        graph.runningAlgorithmAStar(vertexA, vertexB);
+//        Vertex vertexA = graph.graph.findVertex('a');
+//        Vertex vertexB = graph.graph.findVertex('z');
+//        graph.runningAlgorithmAStar(vertexA, vertexB);
 //        readFromFile();
     }
 
+    @FXML
     public void readFromFile() throws IOException {
         String fileName = "/home/anna/IdeaProjects/app/src/main/resources/data.txt";
         graph = new GraphController();

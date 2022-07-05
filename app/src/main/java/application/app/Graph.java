@@ -5,12 +5,12 @@ import java.util.ArrayList;
 public class Graph {
     private ArrayList<Vertex> vertexes;
 
-    public Graph(){
-        vertexes = new ArrayList<Vertex>();
-    }
-
     public ArrayList<Vertex> getVertexes() {
         return vertexes;
+    }
+
+    public Graph(){
+        vertexes = new ArrayList<Vertex>();
     }
 
     void addVertex(char vertex, double x, double y){
