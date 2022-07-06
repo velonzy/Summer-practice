@@ -70,8 +70,15 @@ public class EdgeDrawable {
         } else if(first == this.second & second == this.first) {
             directionFromSecondToFirst = false;
             weightFromSecondToFirst = 0;
-            weightView.setText(first.getName() + "->" + second.getName() + ":" + Double.toString(weightFromFirstToSecond));
+            weightView.setText(second.getName() + "->" + first.getName() + ":" + Double.toString(weightFromFirstToSecond));
         }
+    }
+
+    public boolean isFromFirstToSecond(Vertex first, Vertex second) {
+        return this.first == first && this.second == second && directionFromFirstToSecond;
+    }
+    public boolean isFromSecondToFirst(Vertex first, Vertex second) {
+        return this.second == first && this.first == second && directionFromSecondToFirst;
     }
 
     public boolean isTwoDirectional() {

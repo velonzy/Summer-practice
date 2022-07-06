@@ -99,33 +99,13 @@ public class Controller {
         graph.drawGraph(pane);
     }
 
-    /*@FXML
-    public void contextMenuRequested(MouseEvent event){
-        if (event.getButton() == MouseButton.SECONDARY){
-            menuItemAddVertex.setOnAction((ActionEvent actionEvent) -> {
-                char name = graph.graph.getAvailableName();
-                Vertex vertex = new Vertex(name, event.getX(), event.getY());
-                graph.drawVertex(pane, vertex);
-            });
-            pane.setOnContextMenuRequested(e -> {
-                contextMenuPane.show(pane, event.getScreenX(), event.getScreenY());
-            });
-
-        }
-    }
-
-    @FXML
-    public void menuPane(MouseEvent event){
-        contextMenuPane.show(pane, event.getScreenX(), event.getScreenY());
-        menuItemAddVertex.setOnAction((ActionEvent actionEvent) -> {
-            char name = graph.graph.getAvailableName();
-            Vertex vertex = new Vertex(name, event.getX(), event.getY());
-            graph.drawVertex(pane, vertex);
-        });
-    }*/
-
     @FXML
     public void mouseClick(MouseEvent event){
+        if (event.getButton() == MouseButton.PRIMARY){
+            if (contextMenu.isShowing()) {
+                contextMenu.hide();
+            }
+        }
         if (event.getButton() == MouseButton.SECONDARY){
             if (event.getClickCount() == 1) {
                 for (VertexDrawable vertexDrawable : graph.vertexesDrawable) {
@@ -148,6 +128,7 @@ public class Controller {
                                     graph.graph.addAvailableName(oldName);
                                     vertexDrawable.setName(String.valueOf(name));
                                     graph.graph.deleteAvailableName(name.charAt(0));
+
                                     //vertexDrawable.getVertex().
                                 });
                             });

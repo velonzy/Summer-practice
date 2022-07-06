@@ -214,7 +214,7 @@ public class GraphController { //для считывания графа
             v.getView().setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    if(mouseEvent.getButton() == MouseButton.PRIMARY & mouseEvent.getClickCount() == 2){
+                    if(mouseEvent.getButton() == MouseButton.PRIMARY && mouseEvent.getClickCount() == 2){
                         if (chosen1 == v.getVertex()) {
                             VertexDrawable vertex1 = findVertex(chosen1);
                             if(vertex1 != null){
@@ -299,7 +299,9 @@ public class GraphController { //для считывания графа
             EdgeDrawable edgeDrawable = findEdge(chosen1, chosen2);
             if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {
                 chosen1.deleteNeighbour(chosen2);
-                if (!edgeDrawable.isReverse(chosen1, chosen2)) {
+                if (edgeDrawable.isFromFirstToSecond(chosen1, chosen2)) {
+                    edgesDrawable.remove(edgeDrawable);
+                } else if (edgeDrawable.isFromSecondToFirst(chosen1, chosen2)) {
                     edgesDrawable.remove(edgeDrawable);
                 }
             } else if (edgeDrawable != null && edgeDrawable.isTwoDirectional()) {
