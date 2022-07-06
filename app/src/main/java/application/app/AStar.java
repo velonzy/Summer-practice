@@ -24,7 +24,7 @@ public class AStar {
         closed = new ArrayList();
     }
     private double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
-        return Math.abs( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
+        return Math.sqrt( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
                 Math.pow(a.getCoordinates().getY() - b.getCoordinates().getY(), 2));
     }
 

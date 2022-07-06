@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class Graph {
     private ArrayList<Vertex> vertexes;
+
     private HashMap<Character, Boolean> availableNames;
 
     public ArrayList<Vertex> getVertexes() {
@@ -19,14 +20,31 @@ public class Graph {
         }
     }
 
+    public Character getAvailableName(){
+        for(char letter = 'a'; letter <= 'z'; letter++){
+            if (availableNames.get(letter).equals(true)) {
+                return letter;
+            }
+        }
+        return '*';
+    }
+
+    public void deleteAvailableName(char name){
+        availableNames.put(name, false);
+    }
+
+    public void addAvailableName(char name){
+        availableNames.put(name, true);
+    }
+
     void addVertex(char vertex, double x, double y){
-        availableNames.put(vertex, false);
         vertexes.add(new Vertex(vertex, x, y));
+        availableNames.put(vertex, false);
     }
 
     void addVertex(Vertex vertex){
-        availableNames.put(vertex.getName(), false);
         vertexes.add(vertex);
+        availableNames.put(vertex.getName(), false);
     }
 
     void addEdge(Vertex first, Vertex second, double weight){
@@ -34,7 +52,6 @@ public class Graph {
     }
 
     void deleteVertex(char vertex){
-        availableNames.put(vertex, true);
         for(Vertex v : vertexes){
             if (v.getName() == vertex){
                 for(Vertex subV : vertexes){
@@ -47,7 +64,6 @@ public class Graph {
     }
 
     void deleteVertex(Vertex vertex){
-        availableNames.put(vertex.getName(), true);
         for(Vertex subV : vertexes){
             subV.getNeighbours().remove(vertex);
         }
@@ -82,15 +98,6 @@ public class Graph {
             }
         }
         return null;
-    }
-
-    public Character getAvailableName(){
-        for(char letter = 'a'; letter <= 'z'; letter++){
-            if (availableNames.get(letter).equals(true)) {
-                return letter;
-            }
-        }
-        return '*';
     }
 
     void clearGraph(){

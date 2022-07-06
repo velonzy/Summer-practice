@@ -52,7 +52,7 @@
                                         <Font name="Corbel" size="16.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="btnA" layoutX="2.0" layoutY="188.0" mnemonicParsing="false" onAction="#switchToGraph" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-border-color: white; -fx-background-color: white;" text="Start A*" textFill="#55147e">
+                                <Button fx:id="btnA" layoutX="2.0" layoutY="188.0" mnemonicParsing="false" onAction="#runAStar" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-border-color: white; -fx-background-color: white;" text="Start A*" textFill="#55147e">
                                     <cursor>
                                         <Cursor fx:constant="TEXT" />
                                     </cursor>
@@ -100,7 +100,7 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="490.0" prefWidth="154.0" style="-fx-background-color: white;">
                             <children>
-                                <Button fx:id="btnAddEdge" layoutX="4.0" layoutY="44.0" mnemonicParsing="false" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-background-color: white;" text="Add edge" textFill="#55147e">
+                                <Button fx:id="btnAddEdge" layoutX="4.0" layoutY="44.0" mnemonicParsing="false" onAction="#addEdgeClicked" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-background-color: white;" text="Add edge" textFill="#55147e">
                                     <cursor>
                                         <Cursor fx:constant="TEXT" />
                                     </cursor>
@@ -108,7 +108,7 @@
                                         <Font name="Corbel" size="16.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="btnDeleteEdge" layoutX="4.0" layoutY="76.0" mnemonicParsing="false" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-background-color: white;" text="Delete edge" textFill="#55147e">
+                                <Button fx:id="btnDeleteEdge" layoutX="4.0" layoutY="76.0" mnemonicParsing="false" onAction="#deleteEdgeClicked" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-background-color: white;" text="Delete edge" textFill="#55147e">
                                     <cursor>
                                         <Cursor fx:constant="TEXT" />
                                     </cursor>
