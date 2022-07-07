@@ -57,6 +57,7 @@ public class Graph {
                 for(Vertex subV : vertexes){
                     subV.getNeighbours().remove(v);
                 }
+                availableNames.put(vertex, true);
                 vertexes.remove(v);
                 return;
             }
@@ -67,6 +68,7 @@ public class Graph {
         for(Vertex subV : vertexes){
             subV.getNeighbours().remove(vertex);
         }
+        availableNames.put(vertex.getName(), true);
         vertexes.remove(vertex);
     }
 

@@ -100,10 +100,18 @@ public class Controller {
     }
 
     @FXML
+    public void mouseMoved(MouseEvent event){
+        graph.drawGraph(pane);
+    }
+
+    @FXML
     public void mouseClick(MouseEvent event){
         if (event.getButton() == MouseButton.PRIMARY){
             if (contextMenu.isShowing()) {
                 contextMenu.hide();
+            }
+            if (event.getClickCount() == 2){
+                graph.setEventHandlers();
             }
         }
         if (event.getButton() == MouseButton.SECONDARY){
@@ -128,11 +136,10 @@ public class Controller {
                                     graph.graph.addAvailableName(oldName);
                                     vertexDrawable.setName(String.valueOf(name));
                                     graph.graph.deleteAvailableName(name.charAt(0));
-
                                     //vertexDrawable.getVertex().
                                 });
+                                graph.drawGraph(pane);
                             });
-
                             menuItemDeleteVertex.setOnAction((ActionEvent actionEvent) -> {
                                 if (contextMenu.isShowing()) {
                                     contextMenu.hide();
@@ -195,9 +202,6 @@ public class Controller {
         Vertex vertexA = graph.graph.findVertex('a');
         Vertex vertexB = graph.graph.findVertex('z');
         graph.runningAlgorithmAStar(vertexA, vertexB);
-//        Parent root = FXMLLoader.load(getClass().getResource("Start window.fxml"));
-//        Stage stage = (Stage) btnA.getScene().getWindow();
-//        stage.setScene(new Scene(root, 800, 550));
     }
 
     @FXML
@@ -205,7 +209,7 @@ public class Controller {
         dialogSetWeight.setTitle("Set weight");
         dialogSetWeight.setHeaderText("Enter weight:");
         dialogSetWeight.setContentText("Weight:");
-        Optional <String> newWeight = dialogRenameVertex.showAndWait();
+        Optional <String> newWeight = dialogSetWeight.showAndWait();
         newWeight.ifPresent(weight -> {
             graph.addEdge(Double.valueOf(weight));
             graph.drawGraph(pane);
