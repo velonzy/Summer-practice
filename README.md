@@ -41,7 +41,7 @@ c b 10
 
 b c 3
 
-## Ouput format
+## Output format
 To run the algorithm you need to select two vertexes - start and finish. The result is window with path and weight of path, the vertexes and edges from path are colored green. 
 
 *Example:*
