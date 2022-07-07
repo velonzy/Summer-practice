@@ -113,7 +113,7 @@ public class GraphController { //для считывания графа
         return -1;
     }
 
-    public Graph readGraphForTests(String string){
+    public static Graph readGraphForTests(String string){
         Graph graphTest = new Graph();
 
         String[] tokens = string.split("[\n ]");

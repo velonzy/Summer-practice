@@ -6,17 +6,15 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AStar {
-    HashMap<Vertex, Double> f;
-    HashMap<Vertex, Double> g;
-    ArrayList<Vertex> in_open;
-    ArrayList<Vertex> in_closed;
-    HashMap<Vertex, Vertex> from;
-    List<ArrayList<Vertex>> open;
-    List<ArrayList<Vertex>> closed;
-
-    ArrayList<Vertex> solution;
-
-    String path = "";
+    private HashMap<Vertex, Double> f;
+    private HashMap<Vertex, Double> g;
+    private ArrayList<Vertex> in_open;
+    private ArrayList<Vertex> in_closed;
+    private HashMap<Vertex, Vertex> from;
+    private List<ArrayList<Vertex>> open;
+    private List<ArrayList<Vertex>> closed;
+    private ArrayList<Vertex> solution;
+    private String path = "";
     public AStar(){
         f = new HashMap<Vertex, Double>();
         g = new HashMap<Vertex, Double>();
@@ -27,12 +25,12 @@ public class AStar {
         closed = new ArrayList();
         solution = new ArrayList<Vertex>();
     }
-    private double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
+    public static double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
         return Math.sqrt( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
                 Math.pow(a.getCoordinates().getY() - b.getCoordinates().getY(), 2));
     }
 
-    private Vertex min_f(ArrayList<Vertex> graph){
+    public Vertex min_f(){
         Double min = f.get(in_open.get(0));
         Vertex min_v = in_open.get(0);
         for(int i = 0; i < in_open.size(); i++){
@@ -49,7 +47,7 @@ public class AStar {
         in_open.add(start);
         g.put(start, (double)0); f.put(start, g.get(start) + h(start, finish));
         while (in_open.size() > 0){
-            current = min_f(graph);
+            current = min_f();
             if (current == finish) return finish;
             in_open.remove(current);
             in_closed.add(current);
@@ -97,6 +95,12 @@ public class AStar {
         for (int i = 0; i < solution.size() - 1; i++)
             weight += solution.get(i).getNeighbours().get(solution.get(i + 1));
         return weight;
+    }
+    public void SetF(HashMap<Vertex, Double> new_f){
+        f = new_f;
+    }
+    public void SetInOpen(ArrayList<Vertex> new_open){
+        in_open = new_open;
     }
     public List<ArrayList<Vertex>> getOpen(){
         return open;
