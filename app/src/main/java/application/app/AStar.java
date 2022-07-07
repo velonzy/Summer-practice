@@ -14,6 +14,9 @@ public class AStar {
     List<ArrayList<Vertex>> open;
     List<ArrayList<Vertex>> closed;
 
+    ArrayList<Vertex> solution;
+
+    String path = "";
     public AStar(){
         f = new HashMap<Vertex, Double>();
         g = new HashMap<Vertex, Double>();
@@ -22,6 +25,7 @@ public class AStar {
         from = new HashMap<Vertex, Vertex>();
         open = new ArrayList();
         closed = new ArrayList();
+        solution = new ArrayList<Vertex>();
     }
     private double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
         return Math.sqrt( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
@@ -72,7 +76,6 @@ public class AStar {
     }
 
     public ArrayList<Vertex> a_star_public(Vertex start, Vertex finish, ArrayList<Vertex> graph){
-        ArrayList<Vertex> solution = new ArrayList<Vertex>();
         Vertex goal = a_star(start, finish, graph);
         if (goal == null) return solution;
         solution.add(goal);
@@ -83,6 +86,18 @@ public class AStar {
         return solution;
     }
 
+    public String getPath(){
+        for (Vertex i : solution)
+            path += i.getName();
+        return path;
+    }
+
+    public double getWeight(){
+        double weight = 0;
+        for (int i = 0; i < solution.size() - 1; i++)
+            weight += solution.get(i).getNeighbours().get(solution.get(i + 1));
+        return weight;
+    }
     public List<ArrayList<Vertex>> getOpen(){
         return open;
     }
