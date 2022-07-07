@@ -116,7 +116,7 @@
                                         <Font name="Corbel" size="16.0" />
                                     </font>
                                 </Button>
-                                <Button fx:id="btnClear" layoutX="4.0" layoutY="108.0" mnemonicParsing="false" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-background-color: white;" text="Clear" textFill="#55147e">
+                                <Button fx:id="btnClear" layoutX="4.0" layoutY="108.0" mnemonicParsing="false" onAction="#clearGraph" onMouseExited="#mouseMenuRelease" onMouseMoved="#mouseMenuMove" onMousePressed="#mouseMenuPressed" onMouseReleased="#mouseMenuRelease" prefHeight="32.0" prefWidth="168.0" style="-fx-border-radius: 2; -fx-background-color: white;" text="Clear" textFill="#55147e">
                                     <cursor>
                                         <Cursor fx:constant="TEXT" />
                                     </cursor>

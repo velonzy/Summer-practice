@@ -84,11 +84,26 @@
       <workItem from="1657093604547" duration="4927000" />
       <workItem from="1657131073510" duration="6783000" />
       <workItem from="1657182684910" duration="120000" />
-      <workItem from="1657189445114" duration="6134000" />
+      <workItem from="1657189445114" duration="8781000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/application/app/GraphController.java</url>
+          <line>116</line>
+          <properties class="application.app.GraphController" method="getWeight">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

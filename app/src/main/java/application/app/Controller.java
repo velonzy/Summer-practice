@@ -121,7 +121,7 @@ public class Controller {
         }
         if (event.getButton() == MouseButton.SECONDARY){
             if (event.getClickCount() == 1) {
-                for (VertexDrawable vertexDrawable : graph.vertexesDrawable) {
+                for (VertexDrawable vertexDrawable : graph.getVertexesDrawable()) {
                     vertexDrawable.getView().setOnMouseClicked(new EventHandler<MouseEvent>() {
                         @Override
                         public void handle(MouseEvent mouseEvent) {
@@ -138,9 +138,9 @@ public class Controller {
                                 dialogRenameVertex.setContentText("Name:");
                                 Optional<String> newName = dialogRenameVertex.showAndWait();
                                 newName.ifPresent(name -> {
-                                    graph.graph.addAvailableName(oldName);
+                                    graph.getGraph().addAvailableName(oldName);
                                     vertexDrawable.setName(String.valueOf(name));
-                                    graph.graph.deleteAvailableName(name.charAt(0));
+                                    graph.getGraph().deleteAvailableName(name.charAt(0));
                                     graph.renewEdgesNames();
                                 });
                                 graph.drawGraph(pane);
@@ -159,7 +159,7 @@ public class Controller {
                 if (contextMenu.isShowing()) {
                     contextMenu.hide();
                 }
-                char name = graph.graph.getAvailableName();
+                char name = graph.getGraph().getAvailableName();
                 Vertex vertex = new Vertex(name, event.getX(), event.getY());
                 graph.drawVertex(pane, vertex);
                 graph.drawGraph(pane);
@@ -204,8 +204,8 @@ public class Controller {
 
     @FXML
     public void runAStar(ActionEvent event) throws IOException {
-        Vertex vertexA = graph.graph.findVertex('a');
-        Vertex vertexB = graph.graph.findVertex('z');
+        Vertex vertexA = graph.getGraph().findVertex('a');
+        Vertex vertexB = graph.getGraph().findVertex('z');
         graph.runningAlgorithmAStar(vertexA, vertexB);
         alertPath.setTitle("Astar solution");
         alertPath.setHeaderText("Results:");
@@ -235,6 +235,12 @@ public class Controller {
     @FXML
     public void deleteEdgeClicked(ActionEvent event) {
         graph.deleteEdge();
+        graph.drawGraph(pane);
+    }
+
+    @FXML
+    public void clearGraph(ActionEvent event){
+        graph = new GraphController();
         graph.drawGraph(pane);
     }
 

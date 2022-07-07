@@ -20,17 +20,25 @@ import java.util.HashMap;
 import java.util.Set;
 
 public class GraphController { //для считывания графа
-    ArrayList<VertexDrawable> vertexesDrawable;
-    Graph graph;
-    ArrayList<EdgeDrawable> edgesDrawable;
-    AStar aStar;
+    private ArrayList<VertexDrawable> vertexesDrawable;
+    private Graph graph;
+    private ArrayList<EdgeDrawable> edgesDrawable;
+    private AStar aStar;
 
-    Vertex chosen1, chosen2;
+    private Vertex chosen1, chosen2;
 
     public GraphController(){
         vertexesDrawable = new ArrayList<VertexDrawable>();
         graph = new Graph();
         edgesDrawable = new ArrayList<EdgeDrawable>();
+    }
+
+    public ArrayList<VertexDrawable> getVertexesDrawable(){
+        return vertexesDrawable;
+    }
+
+    public Graph getGraph(){
+        return graph;
     }
 
     private VertexDrawable findVertex(Vertex vertex) {
@@ -113,7 +121,7 @@ public class GraphController { //для считывания графа
         return -1;
     }
 
-    public Graph readGraphForTests(String string){
+    public static Graph readGraphForTests(String string){
         Graph graphTest = new Graph();
 
         String[] tokens = string.split("[\n ]");
