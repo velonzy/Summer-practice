@@ -313,26 +313,10 @@ public class GraphController { //для считывания графа
 
     public void deleteVertex(VertexDrawable vertexDrawable) {
         Vertex vertex = vertexDrawable.getVertex();
-
         for (Vertex v : graph.getVertexes()) {
             EdgeDrawable edgeDrawable = findEdge(vertex, v);
-            if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {
-                vertex.deleteNeighbour(v);
-                if (!edgeDrawable.isReverse(vertex, v)) {
-                    edgesDrawable.remove(edgeDrawable);
-                }
-            } else if (edgeDrawable != null && edgeDrawable.isTwoDirectional()) {
-                edgeDrawable.deleteOneWay(vertex, v);
-                vertex.deleteNeighbour(v);
-            }
-            edgeDrawable = findEdge(v, vertex);
-            if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {
-                vertex.deleteNeighbour(v);
-                if (!edgeDrawable.isReverse(v, vertex)) {
-                    edgesDrawable.remove(edgeDrawable);
-                }
-            } else if (edgeDrawable != null && edgeDrawable.isTwoDirectional()) {
-                edgeDrawable.deleteOneWay(v, vertex);
+            if(edgeDrawable != null) {
+                edgesDrawable.remove(edgeDrawable);
                 vertex.deleteNeighbour(v);
             }
         }
