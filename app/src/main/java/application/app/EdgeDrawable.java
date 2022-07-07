@@ -143,6 +143,17 @@ public class EdgeDrawable {
         }
         weightView.setY((y1 + y2) / 2 - 5);
     }
+
+    public void renewNames() {
+        if (isTwoDirectional()) {
+            weightView.setText(second.getName() + "->" + first.getName() + ":" + Double.toString(weightFromSecondToFirst) +
+                    "\n" + first.getName() + "->" + second.getName() + ":" + Double.toString(weightFromFirstToSecond));
+        } else if (directionFromFirstToSecond) {
+            weightView.setText(second.getName() + "->" + first.getName() + ":" + Double.toString(weightFromFirstToSecond));
+        } else {
+            weightView.setText(second.getName() + "->" + first.getName() + ":" + Double.toString(weightFromSecondToFirst));
+        }
+    }
 }
 
 /*

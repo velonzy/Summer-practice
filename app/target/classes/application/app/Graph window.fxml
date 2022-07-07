@@ -22,7 +22,7 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="522.0" prefWidth="168.0" style="-fx-background-color: white; -fx-border-color: white;">
                             <children>
-                                <TextArea fx:id="window" layoutX="2.0" layoutY="40.0" prefHeight="148.0" prefWidth="168.0" style="-fx-border-color: #d5b8e6;">
+                                <TextArea fx:id="window" layoutX="2.0" layoutY="40.0" prefHeight="148.0" prefWidth="168.0" promptText="Enter the graph here" style="-fx-border-color: #d5b8e6;">
                                     <contextMenu>
                                         <ContextMenu>
                                             <items>
@@ -31,7 +31,7 @@
                                         </ContextMenu>
                                     </contextMenu>
                                 </TextArea>
-                                <Text fill="#55147e" layoutX="4.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Enter the graph">
+                                <Text fill="#55147e" layoutX="4.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0">
                                     <font>
                                         <Font name="Corbel" size="16.0" />
                                     </font>
@@ -132,11 +132,11 @@
                     <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: white;">
                             <children>
-                                <Text fill="#55147e" layoutX="4.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Correct input:&#10;n - number of vertexes&#10;1 ≤ n ≤ 30&#10;Next n vertexes and its coordinates&#10;Then the weight of the edge between the vertexes in the format: vertex1, vertex2, weight&#10;&#10;Example of input:&#10;3&#10;a 2.0 5.0&#10;b 4.0 7.0&#10;c 4.0 3.0&#10;a b 8.3&#10;b c 4.0&#10;a c 2.5" wrappingWidth="166.4000122070313">
-                                    <font>
-                                        <Font name="Corbel" size="16.0" />
-                                    </font>
-                                </Text>
+                        <TextArea editable="false" layoutX="-3.0" layoutY="-2.0" prefHeight="525.0" prefWidth="182.0" text="Correct input:&#10;n - number of vertexes&#10;1 ≤ n ≤ 30&#10;Next n vertexes &#10;and its coordinates&#10;Then the weight of&#10; the edge between &#10;the vertexes in the format:&#10;vertex1, vertex2, weight&#10;&#10;Double right-click button:&#10;add new vertex&#10;with default name&#10;&#10;Right-click button on vertex&#10;open a context menu&#10;where you can rename&#10;or delete vertex &#10;&#10;You can choose two vertexes&#10;by double left-click button&#10;The first selected vertex&#10;is the source&#10;the second is the destination &#10;&#10;By selectiong two vertexes&#10;you can:&#10;run A* algorithm&#10;delete edge&#10;add edge&#10;&#10;Example of input:&#10;3&#10;a 150 150&#10;b 550 250&#10;c 250 350&#10;b a 5&#10;a c 6&#10;c b 10&#10;b c 3&#10;&#10;If you select &quot;a&quot; and &quot;b&quot;&#10;the correct output will be:&#10;Path: acb&#10;Weight: 16.0">
+                           <font>
+                              <Font name="Corbel" size="16.0" />
+                           </font>
+                        </TextArea>
                             </children></AnchorPane>
                     </content>
                 </Tab>

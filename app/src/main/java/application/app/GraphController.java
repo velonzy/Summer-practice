@@ -99,6 +99,42 @@ public class GraphController { //для считывания графа
         }
     }
 
+    public String getPath(){
+        if(aStar != null){
+            return aStar.getPath();
+        }
+        return null;
+    }
+
+    public double getWeight(){
+        if(aStar != null){
+            return aStar.getWeight();
+        }
+        return -1;
+    }
+
+    public Graph readGraphForTests(String string){
+        Graph graphTest = new Graph();
+
+        String[] tokens = string.split("[\n ]");
+        int numberOfVertexes = Integer.parseInt(tokens[0]);
+        for (int i = 1; i < numberOfVertexes * 3; i += 3){
+            Vertex vertex = new Vertex(tokens[i].charAt(0), Double.parseDouble(tokens[i + 1]), Double.parseDouble(tokens[i + 2]));
+            graphTest.addVertex(vertex);
+        }
+        for (int i = numberOfVertexes * 3 + 1; i < tokens.length; i+= 3){
+            char start, finish;
+            double weight;
+            start = tokens[i].charAt(0);
+            finish = tokens[i + 1].charAt(0);
+            weight = Double.parseDouble(tokens[i + 2]);
+            Vertex sVertex, fVertex;
+            sVertex = graphTest.findVertex(start);
+            fVertex = graphTest.findVertex(finish); // добавить исключение, когда одно из них не найдено
+            graphTest.addEdge(sVertex, fVertex, weight);
+        }
+        return graphTest;
+    }
     //в readGraphFromWindow, readGraphFromFile добавить исключения, если вводимые данные пустые, плюс для
     // файлов исключение на то, что файл не существует
     public void readGraphFromWindow(String string){
@@ -322,5 +358,11 @@ public class GraphController { //для считывания графа
         }
         vertexesDrawable.remove(vertexDrawable);
         graph.deleteVertex(vertex);
+    }
+
+    public void renewEdgesNames() {
+        for (EdgeDrawable e : edgesDrawable) {
+            e.renewNames();
+        }
     }
 }

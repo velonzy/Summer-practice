@@ -17,6 +17,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 
 import java.awt.*;
 import java.io.File;
@@ -54,6 +56,8 @@ public class Controller {
     @FXML
     private TextInputDialog dialogRenameVertex, dialogSetWeight;
 
+    @FXML
+    private Alert alertPath;
 
     @FXML
     public void initialize(){
@@ -67,6 +71,7 @@ public class Controller {
         dialogSetWeight = new TextInputDialog();
         menuItemAddVertex = new MenuItem("Add vertex");
         contextMenuPane.getItems().add(menuItemAddVertex);
+        alertPath = new Alert(AlertType.INFORMATION);
     }
 
     @FXML
@@ -136,7 +141,7 @@ public class Controller {
                                     graph.graph.addAvailableName(oldName);
                                     vertexDrawable.setName(String.valueOf(name));
                                     graph.graph.deleteAvailableName(name.charAt(0));
-                                    //vertexDrawable.getVertex().
+                                    graph.renewEdgesNames();
                                 });
                                 graph.drawGraph(pane);
                             });
@@ -202,6 +207,16 @@ public class Controller {
         Vertex vertexA = graph.graph.findVertex('a');
         Vertex vertexB = graph.graph.findVertex('z');
         graph.runningAlgorithmAStar(vertexA, vertexB);
+        alertPath.setTitle("Astar solution");
+        alertPath.setHeaderText("Results:");
+        String path = graph.getPath();
+        if (path == null || path.equals("")){
+            alertPath.setContentText("Path doesn't exist");
+            alertPath.showAndWait();
+        } else {
+            alertPath.setContentText("Path: " + path + "\n" + "Weight: " + Double.toString(graph.getWeight()));
+            alertPath.showAndWait();
+        }
     }
 
     @FXML
