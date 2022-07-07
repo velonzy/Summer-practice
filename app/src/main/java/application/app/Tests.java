@@ -4,17 +4,25 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Tests {
-    public static String RunTests() {
+    public static void RunTests() throws InterruptedException {
         AStar atest = new AStar();
-        return FirstTestH() + "\n" +
-                SecondTestH() + "\n" +
-                ThirdTestH() + "\n" +
-                //FirstTestMinF(atest) + "\n" +
-                FirstTestAStar(atest) + "\n" +
-                FirstTestPath(atest) + "\n" +
-                FirstTestWeight(atest) +"\n" +
-                FirstTestOpen(atest) +"\n" +
-                FirstTestClosed(atest);
+        //FirstTestMinF(atest) + "\n" +
+        Thread.sleep(1000);
+        System.out.println(FirstTestH());
+        Thread.sleep(1000);
+        System.out.println(SecondTestH());
+        Thread.sleep(1000);
+        System.out.println(ThirdTestH());
+        Thread.sleep(1000);
+        System.out.println(FirstTestAStar(atest));
+        Thread.sleep(1000);
+        System.out.println(FirstTestPath(atest));
+        Thread.sleep(1000);
+        System.out.println(FirstTestWeight(atest));
+        Thread.sleep(1000);
+        System.out.println(FirstTestOpen(atest));
+        Thread.sleep(1000);
+        System.out.println(FirstTestClosed(atest));
     }
 
     private static String FirstTestH() {
@@ -103,7 +111,7 @@ public class Tests {
             test_strings += a;
         }
         if (test_strings.equals("a"))
-            return "First test: Open." + "\tAnswer is correst. Test: OK";
-        else return "First test: Open." + "\tAnswer is incorrest. Test failed";
+            return "First test: Closed." + "\tAnswer is correst. Test: OK";
+        else return "First test: Closed." + "\tAnswer is incorrest. Test failed";
     }
 }
