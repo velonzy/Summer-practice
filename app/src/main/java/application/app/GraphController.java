@@ -248,7 +248,12 @@ public class GraphController { //для считывания графа
             v.getView().setOnMouseDragged(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
-                    v.getVertex().setCoordinates(mouseEvent.getSceneX() + x[0], mouseEvent.getSceneY() + y[0]);
+                    double newX, newY;
+                    newX = mouseEvent.getSceneX() + x[0];
+                    newY = mouseEvent.getSceneY() + y[0];
+                    if (newX <= 600 && newY <= 530 && newX >= 0 && newY >= 0){
+                        v.getVertex().setCoordinates(newX, newY);
+                    }
                     v.moveCircle();
                     for(EdgeDrawable e: edgesDrawable) {
                         e.moveLine();
@@ -262,41 +267,35 @@ public class GraphController { //для считывания графа
                         if (chosen1 == v.getVertex()) {
                             VertexDrawable vertex1 = findVertex(chosen1);
                             if(vertex1 != null){
-                                vertex1.getView().setEffect(null);
+                                vertex1.getView().setFill(Paint.valueOf("#d5b8e6"));
                             }
                             chosen1 = null;
                             return;
                         } else if (chosen2 == v.getVertex()) {
                             VertexDrawable vertex2 = findVertex(chosen2);
                             if(vertex2 != null){
-                                vertex2.getView().setEffect(null);
+                                vertex2.getView().setFill(Paint.valueOf("#d5b8e6"));
                             }
                             chosen2 = null;
                             return;
                         }
                         if(chosen1 == null) {
                             chosen1 = v.getVertex();
-                            Bloom bloom = new Bloom();
-                            bloom.setThreshold(0);
-                            v.getView().setEffect(bloom);
+                            v.getView().setFill(Paint.valueOf("#5e64d7"));
                         } else if (chosen2 == null) {
-                            Bloom bloom = new Bloom();
-                            bloom.setThreshold(0);
-                            v.getView().setEffect(bloom);
+                            v.getView().setFill(Paint.valueOf("#a34acd"));
                             chosen2 = v.getVertex();
                         } else {
                             VertexDrawable vertex1 = findVertex(chosen1);
                             VertexDrawable vertex2 = findVertex(chosen2);
                             if(vertex1 != null){
-                                vertex1.getView().setEffect(null);
+                                vertex1.getView().setFill(Paint.valueOf("#d5b8e6"));
                             }
                             if (vertex2 != null) {
-                                vertex2.getView().setEffect(null);
+                                vertex2.getView().setFill(Paint.valueOf("#d5b8e6"));
                             }
                             chosen1 = v.getVertex();
-                            Bloom bloom = new Bloom();
-                            bloom.setThreshold(0);
-                            v.getView().setEffect(bloom);
+                            v.getView().setFill(Paint.valueOf("#5e64d7"));
                             chosen2 = null;
                         }
                     }
