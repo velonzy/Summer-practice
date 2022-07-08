@@ -92,17 +92,16 @@ public class GraphController { //для считывания графа
         } else {
             return;
         }
-
-        for (Vertex i : solution) {
-            VertexDrawable v = findVertex(i);
-            if (v != null) {
-                v.getView().setFill(Paint.valueOf("#0cda73"));
+        for (int i = 0; i < solution.size() - 1; i++) {
+            VertexDrawable cur = findVertex(solution.get(i));
+            VertexDrawable next = findVertex(solution.get(i + 1));
+            if (cur != null && next != null) {
+                cur.getView().setFill(Paint.valueOf("#0cda73"));
+                next.getView().setFill(Paint.valueOf("#0cda73"));
             }
-            for(Vertex child : i.getNeighbours().keySet()){
-                EdgeDrawable e = findEdge(i, child);
-                if(e != null && solution.contains(child) && child != solution.get(0)) {
-                    e.getView().setStroke(Paint.valueOf("#0a9a50"));
-                }
+            EdgeDrawable edge = findEdge(solution.get(i), solution.get(i + 1));
+            if (edge.getView() != null){
+                edge.getView().setStroke(Paint.valueOf("#0a9a50"));
             }
         }
     }

@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1c8fe781-4f62-40d5-8236-c924b372c0a0" name="Changes" comment="" />
+    <list default="true" id="1c8fe781-4f62-40d5-8236-c924b372c0a0" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.iml" beforeDir="false" afterPath="$PROJECT_DIR$/app.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/application/app/EdgeDrawable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/app/EdgeDrawable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/application/app/GraphController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/application/app/GraphController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application/app/EdgeDrawable.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application/app/EdgeDrawable.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application/app/GraphController$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application/app/GraphController$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application/app/GraphController$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application/app/GraphController$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application/app/GraphController$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application/app/GraphController$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application/app/GraphController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application/app/GraphController.class" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +26,9 @@
         <option value="Class" />
       </list>
     </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -30,6 +43,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "last_opened_file_path": "C:/Users/Serg/Documents/GitHub/Summer-practice/app",
     "project.structure.last.edited": "Libraries",
@@ -86,25 +100,11 @@
       <workItem from="1657131073510" duration="6783000" />
       <workItem from="1657182684910" duration="120000" />
       <workItem from="1657189445114" duration="10612000" />
+      <workItem from="1657282787906" duration="5198000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/application/app/GraphController.java</url>
-          <line>116</line>
-          <properties class="application.app.GraphController">
-            <option name="EMULATED" value="true" />
-            <option name="WATCH_EXIT" value="false" />
-          </properties>
-          <option name="timeStamp" value="4" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
