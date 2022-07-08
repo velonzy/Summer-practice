@@ -55,4 +55,4 @@ Weight: 16.0
 ## Program launch
 *For Linux/Ubuntu operating systems:*
 
-Load ***app.jar*** file on your device. Open the terminal with this file in directory. Input: *java -jar app.jar*. Version of JRE 11.0.15 and higher.
+Load ***app.jar*** file on your device. Open the terminal with this file in directory. Input: ```java -jar app.jar```. Version of JRE 11.0.15 and higher.
