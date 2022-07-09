@@ -10,11 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.Alert;
@@ -27,6 +25,7 @@ import java.util.Optional;
 
 public class Controller {
     private final Desktop desktop = Desktop.getDesktop(); // информация об устройстве для считывания файла
+    public Button endStepByStepButton;
     @FXML
     private Button btnA, btnStart, btnReadFromFile, btnReadFromWindow, btnSBS;
 
@@ -59,6 +58,8 @@ public class Controller {
     @FXML
     private Alert alertPath;
 
+    private boolean eventFlag;
+
     @FXML
     public void initialize(){
         graph = new GraphController();
@@ -72,6 +73,7 @@ public class Controller {
         menuItemAddVertex = new MenuItem("Add vertex");
         contextMenuPane.getItems().add(menuItemAddVertex);
         alertPath = new Alert(AlertType.INFORMATION);
+        eventFlag = true;
     }
 
     @FXML
@@ -106,72 +108,132 @@ public class Controller {
 
     @FXML
     public void mouseMoved(MouseEvent event){
-        graph.drawGraph(pane);
+        graph.drawGraphAndLabels(pane);
     }
 
     @FXML
     public void mouseClick(MouseEvent event){
-        if (event.getButton() == MouseButton.PRIMARY){
-            if (contextMenu.isShowing()) {
-                contextMenu.hide();
-            }
-            if (event.getClickCount() == 2){
-                graph.setEventHandlers();
-            }
-        }
-        if (event.getButton() == MouseButton.SECONDARY){
-            if (event.getClickCount() == 1) {
-                for (VertexDrawable vertexDrawable : graph.getVertexesDrawable()) {
-                    vertexDrawable.getView().setOnMouseClicked(new EventHandler<MouseEvent>() {
-                        @Override
-                        public void handle(MouseEvent mouseEvent) {
-                            contextMenu.show(pane, mouseEvent.getScreenX(), mouseEvent.getScreenY());
-                            menuItemRenameVertex.setOnAction((ActionEvent actionEvent) -> {
-                                if (contextMenu.isShowing()) {
-                                    contextMenu.hide();
-                                }
-                                Vertex vertex = vertexDrawable.getVertex();
-                                char oldName = vertex.getName();
-                                //добавить проверку, что такое имя не занято
-                                dialogRenameVertex.setTitle("Rename vertex");
-                                dialogRenameVertex.setHeaderText("Enter vertex name:");
-                                dialogRenameVertex.setContentText("Name:");
-                                Optional<String> newName = dialogRenameVertex.showAndWait();
-                                newName.ifPresent(name -> {
-                                    graph.getGraph().addAvailableName(oldName);
-                                    vertexDrawable.setName(String.valueOf(name));
-                                    graph.getGraph().deleteAvailableName(name.charAt(0));
-                                    graph.renewEdgesNames();
-                                });
-                                graph.drawGraph(pane);
-                            });
-                            menuItemDeleteVertex.setOnAction((ActionEvent actionEvent) -> {
-                                if (contextMenu.isShowing()) {
-                                    contextMenu.hide();
-                                }
-                                graph.deleteVertex(vertexDrawable);
-                                graph.drawGraph(pane);
-                            });
-                        }
-                    });
-                }
-            } if (event.getClickCount() == 2) {
+        if (eventFlag) {
+            if (event.getButton() == MouseButton.PRIMARY){
                 if (contextMenu.isShowing()) {
                     contextMenu.hide();
                 }
-                char name = graph.getGraph().getAvailableName();
-                Vertex vertex = new Vertex(name, event.getX(), event.getY());
-                graph.drawVertex(pane, vertex);
-                graph.drawGraph(pane);
+                if (event.getClickCount() == 2){
+                    graph.setEventHandlers();
+                }
             }
+            if (event.getButton() == MouseButton.SECONDARY){
+                if (event.getClickCount() == 1) {
+                    setHandlers();
+                } if (event.getClickCount() == 2) {
+                    if (contextMenu.isShowing()) {
+                        contextMenu.hide();
+                    }
+                    char name = graph.getGraph().getAvailableName();
+                    Vertex vertex = new Vertex(name, event.getX(), event.getY());
+                    graph.drawVertex(pane, vertex);
+                    graph.drawGraph(pane);
+                }
+            }
+        }
+
+    }
+
+    private void setHandlers() {
+        for (VertexDrawable vertexDrawable : graph.getVertexesDrawable()) {
+            vertexDrawable.getView().setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    contextMenu.show(pane, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+                    menuItemRenameVertex.setOnAction((ActionEvent actionEvent) -> {
+                        if (contextMenu.isShowing()) {
+                            contextMenu.hide();
+                        }
+                        Vertex vertex = vertexDrawable.getVertex();
+                        char oldName = vertex.getName();
+                        //добавить проверку, что такое имя не занято
+                        dialogRenameVertex.setTitle("Rename vertex");
+                        dialogRenameVertex.setHeaderText("Enter vertex name:");
+                        dialogRenameVertex.setContentText("Name:");
+                        Optional<String> newName = dialogRenameVertex.showAndWait();
+                        newName.ifPresent(name -> {
+                            graph.getGraph().addAvailableName(oldName);
+                            vertexDrawable.setName(String.valueOf(name));
+                            graph.getGraph().deleteAvailableName(name.charAt(0));
+                            graph.renewEdgesNames();
+                        });
+                        graph.drawGraph(pane);
+                    });
+                    menuItemDeleteVertex.setOnAction((ActionEvent actionEvent) -> {
+                        if (contextMenu.isShowing()) {
+                            contextMenu.hide();
+                        }
+                        graph.deleteVertex(vertexDrawable);
+                        graph.drawGraph(pane);
+                    });
+                }
+            });
         }
     }
 
     @FXML
     public void stepByStepSolution(){
+        eventFlag = false;
+        btnClear.setDisable(true);
+        btnAddEdge.setDisable(true);
+        btnDeleteEdge.setDisable(true);
+        btnA.setDisable(true);
+        btnReadFromFile.setDisable(true);
+        btnReadFromWindow.setDisable(true);
+        btnSBS.setDisable(true);
+        graph.startStepByStep();
         btnStepBack.setVisible(true);
         btnStepForward.setVisible(true);
         btnToEnd.setVisible(true);
+        endStepByStepButton.setVisible(true);
+        graph.drawGraphAndLabels(pane);
+    }
+
+    @FXML
+    public void stepBack() {
+        graph.doStep(-1);
+        graph.drawGraphAndLabels(pane);
+    }
+
+    @FXML
+    public void stepForward() {
+        graph.doStep(1);
+        graph.drawGraphAndLabels(pane);
+        if (graph.isFinalInStepByStep()) {
+            // output information about path
+        }
+    }
+
+    @FXML
+    public void toEnd() {
+        graph.toEndStepByStep();
+        graph.drawGraphAndLabels(pane);
+       // output information about path
+    }
+
+    @FXML
+    public void endStepByStep() {
+        eventFlag = true;
+        btnClear.setDisable(false);
+        btnAddEdge.setDisable(false);
+        btnDeleteEdge.setDisable(false);
+        btnA.setDisable(false);
+        btnReadFromFile.setDisable(false);
+        btnReadFromWindow.setDisable(false);
+        btnSBS.setDisable(false);
+        btnStepBack.setVisible(false);
+        btnStepForward.setVisible(false);
+        btnToEnd.setVisible(false);
+        endStepByStepButton.setVisible(false);
+        graph.normalGraphColor();
+        graph.allowEvents();
+        graph.endSBS();
+        graph.drawGraph(pane);
     }
 
     @FXML

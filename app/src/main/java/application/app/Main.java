@@ -13,7 +13,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // exceptions
-        Tests.RunTests();
+//        Tests.RunTests();
         // c if перестало подсвечивать и вызывать лишние exceptions,
         // в будущем нужно будет пересмотреть подход к проверке (наверное)
         URL cl;
