@@ -11,8 +11,8 @@ public class AStar {
     private ArrayList<Vertex> in_open;
     private ArrayList<Vertex> in_closed;
     private HashMap<Vertex, Vertex> from;
-    private List<ArrayList<Vertex>> open;
-    private List<ArrayList<Vertex>> closed;
+    private ArrayList<HashMap<Vertex, Double>> f_steps;
+    private List<ArrayList<Vertex>> paths;
     private ArrayList<Vertex> solution;
     private String path = "";
     public AStar(){
@@ -21,8 +21,8 @@ public class AStar {
         in_open = new ArrayList<Vertex>();
         in_closed = new ArrayList<Vertex>();
         from = new HashMap<Vertex, Vertex>();
-        open = new ArrayList();
-        closed = new ArrayList();
+        f_steps = new ArrayList();
+        paths = new ArrayList();
         solution = new ArrayList<Vertex>();
     }
     public static double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
@@ -65,10 +65,9 @@ public class AStar {
                     in_open.add(neighbour.getKey());
                 }
             }
-            ArrayList <Vertex> arr_open = new ArrayList<>(in_open);
-            open.add(arr_open);
-            ArrayList <Vertex> arr_closed = new ArrayList<>(in_closed);
-            closed.add(arr_closed);
+            HashMap<Vertex,Double> f_step = new HashMap<>(f);
+            f_steps.add(f_step);
+            paths.add(getStepPath(current));
         }
         return null;
     }
@@ -89,6 +88,14 @@ public class AStar {
             path += i.getName();
         return path;
     }
+    public ArrayList<Vertex> getStepPath(Vertex n){
+        ArrayList<Vertex> step_path = new ArrayList<>();
+        while(from.containsKey(n)){
+            step_path.add(0, from.get(n));
+            n = from.get(n);
+        }
+        return step_path;
+    }
 
     public double getWeight(){
         double weight = 0;
@@ -96,16 +103,10 @@ public class AStar {
             weight += solution.get(i).getNeighbours().get(solution.get(i + 1));
         return weight;
     }
-    public void SetF(HashMap<Vertex, Double> new_f){
-        f = new_f;
-    }
-    public void SetInOpen(ArrayList<Vertex> new_open){
-        in_open = new_open;
-    }
-    public List<ArrayList<Vertex>> getOpen(){
-        return open;
-    }
-    public List<ArrayList<Vertex>> getClose(){
-        return closed;
+
+    public ArrayList<HashMap<Vertex, Double>> getF_steps(){
+        return f_steps;}
+    public List<ArrayList<Vertex>> getPaths(){
+        return paths;
     }
 }
