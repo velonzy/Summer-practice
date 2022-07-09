@@ -78,7 +78,7 @@ public class GraphController { //для считывания графа
         ArrayList<Vertex> solution = new ArrayList<>();
         aStar = new AStar();
         if (chosen1 != null && chosen2 != null) {
-            solution = aStar.a_star_public(chosen1, chosen2, graph.getVertexes());
+            solution = aStar.a_star_public(chosen1, chosen2);
             VertexDrawable vertex1 = findVertex(chosen1);
             VertexDrawable vertex2 = findVertex(chosen2);
             if(vertex1 != null){
