@@ -82,7 +82,7 @@ public class GraphController { //для считывания графа
         ArrayList<Vertex> solution;
         aStar = new AStar();
         if (chosen1 != null && chosen2 != null) {
-            solution = aStar.a_star_public(chosen1, chosen2, graph.getVertexes());
+            solution = aStar.a_star_public(chosen1, chosen2);
             chosen1 = null;
             chosen2 = null;
         } else {
@@ -112,7 +112,7 @@ public class GraphController { //для считывания графа
         eventFlag = false;
         aStar = new AStar();
         if (chosen1 != null && chosen2 != null) {
-            aStar.a_star_public(chosen1, chosen2, graph.getVertexes());
+            aStar.a_star_public(chosen1, chosen2);
             chosen1 = null;
             chosen2 = null;
             stepNumber = 0;

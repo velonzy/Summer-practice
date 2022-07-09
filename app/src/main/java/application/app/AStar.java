@@ -14,7 +14,7 @@ public class AStar {
     private ArrayList<HashMap<Vertex, Double>> f_steps; // список значений эвристической функции на каждом шаге
     private List<ArrayList<Vertex>> paths; // список путей на каждом шаге
     private ArrayList<Vertex> solution;
-    private String path = "";
+    private StringBuilder path;
     public AStar(){
         f = new HashMap<Vertex, Double>();
         g = new HashMap<Vertex, Double>();
@@ -24,6 +24,7 @@ public class AStar {
         f_steps = new ArrayList();
         paths = new ArrayList();
         solution = new ArrayList<Vertex>();
+        path = new StringBuilder();
     }
     public static double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
         return Math.sqrt( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
@@ -42,7 +43,7 @@ public class AStar {
         return min_v;
     }
 
-    private Vertex a_star(Vertex start, Vertex finish, ArrayList<Vertex> graph){
+    private Vertex a_star(Vertex start, Vertex finish){
         Vertex current;
         in_open.add(start);
         g.put(start, (double)0); f.put(start, g.get(start) + h(start, finish));
@@ -72,8 +73,8 @@ public class AStar {
         return null;
     }
 
-    public ArrayList<Vertex> a_star_public(Vertex start, Vertex finish, ArrayList<Vertex> graph){
-        Vertex goal = a_star(start, finish, graph);
+    public ArrayList<Vertex> a_star_public(Vertex start, Vertex finish){
+        Vertex goal = a_star(start, finish);
         if (goal == null) return solution;
         solution.add(goal);
         while(from.containsKey(goal)){
@@ -85,8 +86,8 @@ public class AStar {
 
     public String getPath(){
         for (Vertex i : solution)
-            path += i.getName();
-        return path;
+            path.append(i.getName());
+        return path.toString();
     }
     public ArrayList<Vertex> getStepPath(Vertex n){
         ArrayList<Vertex> step_path = new ArrayList<>();
@@ -107,6 +108,7 @@ public class AStar {
 
     public ArrayList<HashMap<Vertex, Double>> getF_steps(){
         return f_steps;}
+
     public List<ArrayList<Vertex>> getPaths(){
         return paths;
     }

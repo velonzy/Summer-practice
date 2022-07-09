@@ -21,6 +21,7 @@ import javafx.scene.control.Alert.AlertType;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.Optional;
 
 public class Controller {
@@ -78,7 +79,7 @@ public class Controller {
 
     @FXML
     public void switchToGraphWindow(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("Graph window.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("Graph window.fxml")));
         Stage stage = (Stage) btnStart.getScene().getWindow();
         stage.setScene(new Scene(root, 800, 550));
     }

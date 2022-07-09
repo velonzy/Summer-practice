@@ -111,14 +111,6 @@ public class EdgeDrawable {
 
     public Line getView() { return edgeLine; }
 
-    public Vertex getFirst() {
-        return first;
-    }
-
-    public Vertex getSecond() {
-        return second;
-    }
-
     public void moveLine() {
         double x1, x2, y1, y2;
         x1 = first.getCoordinates().getX();
