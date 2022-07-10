@@ -5,48 +5,49 @@ import java.util.HashMap;
 
 public class Tests {
     public static final double DOUBLE_CONST= 0.0000000001;
+    public static final int SLEEP_CONST= 500;
     public static void RunTests() throws InterruptedException {
         System.out.println(FirstTestH());
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(SecondTestH());
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(ThirdTestH());
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         AStar atest = new AStar();
         System.out.println(FirstTestAStar(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(FirstTestPath(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(FirstTestWeight(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         atest = new AStar();
         System.out.println(SecondTestAStar(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(SecondTestPath(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(SecondTestWeight(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         atest = new AStar();
         System.out.println(ThirdTestAStar(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(ThirdTestPath(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(ThirdTestWeight(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         atest = new AStar();
         System.out.println(FourthTestAStar(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(FourthTestPath(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(FourthTestWeight(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         atest = new AStar();
         System.out.println(FifthTestAStar(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(FifthTestPath(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
         System.out.println(FifthTestWeight(atest));
-        Thread.sleep(500);
+        Thread.sleep(SLEEP_CONST);
     }
 
     private static String FirstTestH() {
