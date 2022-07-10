@@ -53,6 +53,11 @@ Path: acb
 Weight: 16.0
 
 ## Program launch
-*For Linux/Ubuntu operating systems:*
+*For Linux/Ubuntu operating systems:* (version of JRE 11.0.15 and higher.)
 
-Load ***app.jar*** file on your device. Open the terminal with this file in directory. Input: ```java -jar app.jar```. Version of JRE 11.0.15 and higher.
+*Load ***app.jar*** file on your device. Open the terminal with this file in directory. Input: ```java -jar app.jar```.
+
+*Load the project (directory **app**). Open the terminal in this directory. Input: ```mvn install``` and then: ```target/app-2.0-shaded.jar```.
+
+
+*Load the project (directory **app**). Open the terminal in this directory. Input: ```mvn clean javafx:run```.
