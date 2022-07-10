@@ -57,7 +57,7 @@ Weight: 16.0
 
 *Load ***app.jar*** file on your device. Open the terminal with this file in directory. Input: ```java -jar app.jar```.
 
-*Load the project (directory **app**). Open the terminal in this directory. Input: ```mvn install``` and then: ```target/app-2.0-shaded.jar```.
+*Load the project (directory **app**). Open the terminal in this directory. Input: ```mvn install``` and then: ```java -jar target/app-2.0-shaded.jar```.
 
 
 *Load the project (directory **app**). Open the terminal in this directory. Input: ```mvn clean javafx:run```.
