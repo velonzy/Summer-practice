@@ -111,14 +111,6 @@ public class EdgeDrawable {
 
     public Line getView() { return edgeLine; }
 
-    public Vertex getFirst() {
-        return first;
-    }
-
-    public Vertex getSecond() {
-        return second;
-    }
-
     public void moveLine() {
         double x1, x2, y1, y2;
         x1 = first.getCoordinates().getX();
@@ -157,12 +149,27 @@ public class EdgeDrawable {
 }
 
 /*
-3
-a 200 300
-b 150 400
-z 600 200
-a b 5
-b z 4.7
-z a 20
-a z 11
+5
+a 100.234 2
+b 189.2 0
+c 200 300
+d 100 300
+e 500 500
+a b 3
+b c 1
+c d 1
+a d 5
+d e 1
+
+
+5
+a 100 100
+b 100 200
+c 200 300
+d 100 300
+e 500 500
+a b 3
+b c 1
+c d 1
+d e 1
  */

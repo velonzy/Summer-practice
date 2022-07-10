@@ -11,19 +11,20 @@ public class AStar {
     private ArrayList<Vertex> in_open;
     private ArrayList<Vertex> in_closed;
     private HashMap<Vertex, Vertex> from;
-    private List<ArrayList<Vertex>> open;
-    private List<ArrayList<Vertex>> closed;
+    private ArrayList<HashMap<Vertex, Double>> f_steps; // список значений эвристической функции на каждом шаге
+    private List<ArrayList<Vertex>> paths; // список путей на каждом шаге
     private ArrayList<Vertex> solution;
-    private String path = "";
+    private StringBuilder path;
     public AStar(){
         f = new HashMap<Vertex, Double>();
         g = new HashMap<Vertex, Double>();
         in_open = new ArrayList<Vertex>();
         in_closed = new ArrayList<Vertex>();
         from = new HashMap<Vertex, Vertex>();
-        open = new ArrayList();
-        closed = new ArrayList();
+        f_steps = new ArrayList();
+        paths = new ArrayList();
         solution = new ArrayList<Vertex>();
+        path = new StringBuilder();
     }
     public static double h(Vertex a, Vertex b){ // Р­РІСЂРёСЃС‚РёС‡РµСЃРєР°СЏ С„СѓРЅРєС†РёСЏ
         return Math.sqrt( Math.pow(a.getCoordinates().getX() - b.getCoordinates().getX(), 2) +
@@ -42,12 +43,15 @@ public class AStar {
         return min_v;
     }
 
-    private Vertex a_star(Vertex start, Vertex finish, ArrayList<Vertex> graph){
+    private Vertex a_star(Vertex start, Vertex finish){
         Vertex current;
         in_open.add(start);
         g.put(start, (double)0); f.put(start, g.get(start) + h(start, finish));
         while (in_open.size() > 0){
             current = min_f();
+            paths.add(getStepPath(current));
+            HashMap<Vertex,Double> f_step = new HashMap<>(f);
+            f_steps.add(f_step);
             if (current == finish) return finish;
             in_open.remove(current);
             in_closed.add(current);
@@ -65,16 +69,12 @@ public class AStar {
                     in_open.add(neighbour.getKey());
                 }
             }
-            ArrayList <Vertex> arr_open = new ArrayList<>(in_open);
-            open.add(arr_open);
-            ArrayList <Vertex> arr_closed = new ArrayList<>(in_closed);
-            closed.add(arr_closed);
         }
         return null;
     }
 
-    public ArrayList<Vertex> a_star_public(Vertex start, Vertex finish, ArrayList<Vertex> graph){
-        Vertex goal = a_star(start, finish, graph);
+    public ArrayList<Vertex> a_star_public(Vertex start, Vertex finish){
+        Vertex goal = a_star(start, finish);
         if (goal == null) return solution;
         solution.add(goal);
         while(from.containsKey(goal)){
@@ -85,9 +85,19 @@ public class AStar {
     }
 
     public String getPath(){
+        path = new StringBuilder();
         for (Vertex i : solution)
-            path += i.getName();
-        return path;
+            path.append(i.getName());
+        return path.toString();
+    }
+    public ArrayList<Vertex> getStepPath(Vertex n){
+        ArrayList<Vertex> step_path = new ArrayList<>();
+        step_path.add(n);
+        while(from.containsKey(n)){
+            step_path.add(0, from.get(n));
+            n = from.get(n);
+        }
+        return step_path;
     }
 
     public double getWeight(){
@@ -96,16 +106,11 @@ public class AStar {
             weight += solution.get(i).getNeighbours().get(solution.get(i + 1));
         return weight;
     }
-    public void SetF(HashMap<Vertex, Double> new_f){
-        f = new_f;
-    }
-    public void SetInOpen(ArrayList<Vertex> new_open){
-        in_open = new_open;
-    }
-    public List<ArrayList<Vertex>> getOpen(){
-        return open;
-    }
-    public List<ArrayList<Vertex>> getClose(){
-        return closed;
+
+    public ArrayList<HashMap<Vertex, Double>> getF_steps(){
+        return f_steps;}
+
+    public List<ArrayList<Vertex>> getPaths(){
+        return paths;
     }
 }

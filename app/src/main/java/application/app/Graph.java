@@ -102,6 +102,10 @@ public class Graph {
         return null;
     }
 
+    public boolean isNameAvailable(char name){
+        return availableNames.get(name);
+    }
+
     void clearGraph(){
         vertexes.clear();
     }
