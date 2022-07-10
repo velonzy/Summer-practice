@@ -83,6 +83,17 @@ public class GraphController { //для считывания графа
         aStar = new AStar();
         if (chosen1 != null && chosen2 != null) {
             solution = aStar.a_star_public(chosen1, chosen2);
+<<<<<<< HEAD
+=======
+            VertexDrawable vertex1 = findVertex(chosen1);
+            VertexDrawable vertex2 = findVertex(chosen2);
+            if(vertex1 != null){
+                vertex1.getView().setEffect(null);
+            }
+            if (vertex2 != null) {
+                vertex2.getView().setEffect(null);
+            }
+>>>>>>> 276e60b332ea0c9789b6f472f07fef039ae020dc
             chosen1 = null;
             chosen2 = null;
         } else {

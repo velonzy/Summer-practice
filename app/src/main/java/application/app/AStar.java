@@ -11,8 +11,13 @@ public class AStar {
     private ArrayList<Vertex> in_open;
     private ArrayList<Vertex> in_closed;
     private HashMap<Vertex, Vertex> from;
+<<<<<<< HEAD
     private ArrayList<HashMap<Vertex, Double>> f_steps; // список значений эвристической функции на каждом шаге
     private List<ArrayList<Vertex>> paths; // список путей на каждом шаге
+=======
+    private ArrayList<HashMap<Vertex, Double>> f_steps;
+    private List<ArrayList<Vertex>> paths;
+>>>>>>> 276e60b332ea0c9789b6f472f07fef039ae020dc
     private ArrayList<Vertex> solution;
     private StringBuilder path;
     public AStar(){
@@ -50,8 +55,11 @@ public class AStar {
         while (in_open.size() > 0){
             current = min_f();
             paths.add(getStepPath(current));
+<<<<<<< HEAD
             HashMap<Vertex,Double> f_step = new HashMap<>(f);
             f_steps.add(f_step);
+=======
+>>>>>>> 276e60b332ea0c9789b6f472f07fef039ae020dc
             if (current == finish) return finish;
             in_open.remove(current);
             in_closed.add(current);
@@ -69,6 +77,11 @@ public class AStar {
                     in_open.add(neighbour.getKey());
                 }
             }
+<<<<<<< HEAD
+=======
+            HashMap<Vertex,Double> f_step = new HashMap<>(f);
+            f_steps.add(f_step);
+>>>>>>> 276e60b332ea0c9789b6f472f07fef039ae020dc
         }
         return null;
     }
@@ -83,7 +96,6 @@ public class AStar {
         }
         return solution;
     }
-
     public String getPath(){
         path = new StringBuilder();
         for (Vertex i : solution)
@@ -99,7 +111,6 @@ public class AStar {
         }
         return step_path;
     }
-
     public double getWeight(){
         double weight = 0;
         for (int i = 0; i < solution.size() - 1; i++)
