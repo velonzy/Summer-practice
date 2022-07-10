@@ -232,7 +232,6 @@ public class GraphController { //для считывания графа
 
     public static Graph readGraphForTests(String string){
         Graph graphTest = new Graph();
-
         String[] tokens = string.split("[\n ]");
         int numberOfVertexes = Integer.parseInt(tokens[0]);
         for (int i = 1; i < numberOfVertexes * 3; i += 3){
@@ -247,14 +246,14 @@ public class GraphController { //для считывания графа
             weight = Double.parseDouble(tokens[i + 2]);
             Vertex sVertex, fVertex;
             sVertex = graphTest.findVertex(start);
-            fVertex = graphTest.findVertex(finish); // добавить исключение, когда одно из них не найдено
+            fVertex = graphTest.findVertex(finish);
             graphTest.addEdge(sVertex, fVertex, weight);
         }
         return graphTest;
     }
     //в readGraphFromWindow, readGraphFromFile добавить исключения, если вводимые данные пустые, плюс для
     // файлов исключение на то, что файл не существует
-    public void readGraph(String string) throws NumberFormatException, DataFormatException{
+    public void readGraph(String string) throws NumberFormatException, DataFormatException, ArrayIndexOutOfBoundsException{
         if (string.isEmpty()) CheckRules.inputIsEmpty();
         vertexesDrawable = new ArrayList<VertexDrawable>();
         edgesDrawable = new ArrayList<EdgeDrawable>();
@@ -281,10 +280,7 @@ public class GraphController { //для считывания графа
             double weight = Double.parseDouble(tokens[i + 2]);
             Vertex startVertex = graph.findVertex(start);
             Vertex finishVertex = graph.findVertex(finish);
-
-            if(findEdge(startVertex, finishVertex) != null){
-                //CheckRules.edgeAlreadyExists(tokens[i], tokens[i + 1], tokens[i + 2]);
-            }
+            CheckRules.isEdgeAlreadyExists(graph, startVertex, finishVertex, weight);
             graph.addEdge(startVertex, finishVertex, weight);
             boolean flag = false;
             for (EdgeDrawable e: edgesDrawable) {
@@ -300,9 +296,14 @@ public class GraphController { //для считывания графа
         setEventHandlers();
     }
 
-    public void readGraphFromFile(String fileName) throws IOException, DataFormatException {
-        String data = new String(Files.readAllBytes(Paths.get(fileName)));
-        readGraph(data);
+    public void readGraphFromFile(String fileName) throws IOException, DataFormatException, ArrayIndexOutOfBoundsException {
+        try {
+            String data = new String(Files.readAllBytes(Paths.get(fileName)));
+            readGraph(data);
+        } catch (IOException e){
+            throw new DataFormatException("Error occurred in reading this file");
+        }
+
     }
 
     protected void setEventHandlers() {
@@ -403,9 +404,11 @@ public class GraphController { //для считывания графа
         setEventHandlers();
     }
 
-    public void addEdge(double weight) {
-        // нужно считать вес
+    public void addEdge(double weight) throws DataFormatException {
         if (chosen1 != null && chosen2 != null) {
+            if (graph.isEdgeAlreadyExists(chosen1, chosen2)){
+                throw new DataFormatException("Edge already exists");
+            }
             graph.addEdge(chosen1, chosen2, weight);
             EdgeDrawable edgeDrawable = findEdge(chosen1, chosen2);
             if (edgeDrawable != null && edgeDrawable.isOnlyOneWay()) {

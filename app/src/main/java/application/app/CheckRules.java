@@ -60,9 +60,11 @@ public class CheckRules {
         checkEdgeWeight(weight);
     }
 
-    public static void edgeAlreadyExists(String first, String second, String weight) throws DataFormatException{
-        StringBuilder edge = new StringBuilder();
-        edge.append(("Edge '" + first + " " + second + " " + weight + "'").toString());
-        throw new DataFormatException(edge.toString() + " can't be created, such edge already exists");
+    public static void isEdgeAlreadyExists(Graph graph, Vertex first, Vertex second, Double weight) throws DataFormatException{
+        if (graph.isEdgeAlreadyExists(first, second)) {
+            StringBuilder edge = new StringBuilder();
+            edge.append(("Edge '" + first.getName() + " " + second.getName() + " " + String.valueOf(weight) + "'").toString());
+            throw new DataFormatException(edge.toString() + " can't be created, such edge already exists");
+        }
     }
 }

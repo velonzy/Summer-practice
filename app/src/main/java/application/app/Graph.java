@@ -20,7 +20,7 @@ public class Graph {
         }
     }
 
-    public Character getAvailableName(){
+    public Character getAvailableName() {
         for(char letter = 'a'; letter <= 'z'; letter++){
             if (availableNames.get(letter).equals(true)) {
                 return letter;
@@ -72,7 +72,7 @@ public class Graph {
         vertexes.remove(vertex);
     }
 
-    void deleteEdge(char first, char second){ //добавить проверку на наличие вершин; first != second
+    void deleteEdge(char first, char second){
         Vertex firstVertex = null, secondVertex = null;
         for(Vertex v : vertexes){
             if (v.getName() == first){
@@ -87,7 +87,7 @@ public class Graph {
         }
     }
 
-    void deleteEdge(Vertex first, Vertex second){ //добавить проверку на наличие вершин; first != second
+    void deleteEdge(Vertex first, Vertex second){
         if (first != null && second != null){
             first.deleteNeighbour(second);
         }
@@ -104,6 +104,10 @@ public class Graph {
 
     public boolean isNameAvailable(char name){
         return availableNames.get(name);
+    }
+
+    public boolean isEdgeAlreadyExists(Vertex first, Vertex second){
+        return first.getNeighbours().containsKey(second);
     }
 
     void clearGraph(){

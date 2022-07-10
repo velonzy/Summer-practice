@@ -87,10 +87,16 @@ public class Controller {
     }
 
     @FXML
-    public void readFromWindow() throws NumberFormatException, DataFormatException{
+    public void readFromWindow() throws NumberFormatException{
         try {
             graph = new GraphController();
             graph.readGraph(window.getText());
+            graph.drawGraph(pane);
+        } catch (ArrayIndexOutOfBoundsException e){
+            alertError.setHeaderText("Invalid input");
+            alertError.setContentText("Not enough of data");
+            alertError.showAndWait();
+            graph = new GraphController();
             graph.drawGraph(pane);
         } catch (NumberFormatException e){
             alertError.setHeaderText("Invalid input");
@@ -109,7 +115,7 @@ public class Controller {
     }
 
     @FXML
-    public void readFromFile() throws NumberFormatException, IOException, DataFormatException{
+    public void readFromFile() throws NumberFormatException, IOException{
         FileChooser fileChooser = new FileChooser();
         FileChooser.ExtensionFilter extensionFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extensionFilter);
@@ -124,6 +130,12 @@ public class Controller {
             graph = new GraphController();
             graph.readGraphFromFile(path);
             graph.drawGraph(pane);
+        } catch (ArrayIndexOutOfBoundsException e){
+            alertError.setHeaderText("Invalid input");
+            alertError.setContentText("Not enough of data");
+            alertError.showAndWait();
+            graph = new GraphController();
+            graph.drawGraph(pane);
         } catch (NumberFormatException e){
             alertError.setHeaderText("Invalid input");
             alertError.setContentText("Error in numerical values");
@@ -132,6 +144,13 @@ public class Controller {
             graph.drawGraph(pane);
         } catch (DataFormatException e){
             alertError.setHeaderText("Invalid input");
+            alertError.setContentText(e.getMessage());
+            alertError.showAndWait();
+            graph.getGraph().clearGraph();
+            graph = new GraphController();
+            graph.drawGraph(pane);
+        } catch (IOException e) {
+            alertError.setHeaderText("Error occurred in opening this file");
             alertError.setContentText(e.getMessage());
             alertError.showAndWait();
             graph.getGraph().clearGraph();
@@ -164,9 +183,15 @@ public class Controller {
                         contextMenu.hide();
                     }
                     char name = graph.getGraph().getAvailableName();
-                    Vertex vertex = new Vertex(name, event.getX(), event.getY());
-                    graph.drawVertex(pane, vertex);
-                    graph.drawGraph(pane);
+                    if (name == '*') {
+                        alertError.setHeaderText("Maximum number of vertexes per field");
+                        alertError.setContentText("You can't add new vertex");
+                        alertError.showAndWait();
+                    } else {
+                        Vertex vertex = new Vertex(name, event.getX(), event.getY());
+                        graph.drawVertex(pane, vertex);
+                        graph.drawGraph(pane);
+                    }
                 }
             }
         }
@@ -179,6 +204,7 @@ public class Controller {
                 @Override
                 public void handle(MouseEvent mouseEvent) {
                     contextMenu.show(pane, mouseEvent.getScreenX(), mouseEvent.getScreenY());
+
                     menuItemRenameVertex.setOnAction((ActionEvent actionEvent) -> {
                         if (contextMenu.isShowing()) {
                             contextMenu.hide();
@@ -191,13 +217,22 @@ public class Controller {
                         dialogRenameVertex.setContentText("Name:");
                         Optional<String> newName = dialogRenameVertex.showAndWait();
                         newName.ifPresent(name -> {
-                            graph.getGraph().addAvailableName(oldName);
-                            vertexDrawable.setName(String.valueOf(name));
-                            graph.getGraph().deleteAvailableName(name.charAt(0));
-                            graph.renewEdgesNames();
+                            try {
+                                CheckRules.checkVertexName(name);
+                                CheckRules.checkIfVertexNameIsAvailable(graph.getGraph(), name);
+                                graph.getGraph().addAvailableName(oldName);
+                                vertexDrawable.setName(name);
+                                graph.getGraph().deleteAvailableName(name.charAt(0));
+                                graph.renewEdgesNames();
+                                graph.drawGraph(pane);
+                            } catch (DataFormatException e) {
+                                alertError.setHeaderText("Invalid name");
+                                alertError.setContentText(e.getMessage());
+                                alertError.showAndWait();
+                            }
                         });
-                        graph.drawGraph(pane);
                     });
+
                     menuItemDeleteVertex.setOnAction((ActionEvent actionEvent) -> {
                         if (contextMenu.isShowing()) {
                             contextMenu.hide();
@@ -329,14 +364,25 @@ public class Controller {
     }
 
     @FXML
-    public void addEdgeClicked(ActionEvent event) throws IOException{
+    public void addEdgeClicked(ActionEvent event){
         dialogSetWeight.setTitle("Set weight");
         dialogSetWeight.setHeaderText("Enter weight:");
         dialogSetWeight.setContentText("Weight:");
         Optional <String> newWeight = dialogSetWeight.showAndWait();
         newWeight.ifPresent(weight -> {
-            graph.addEdge(Double.valueOf(weight));
-            graph.drawGraph(pane);
+            try {
+                CheckRules.checkEdgeWeight(weight);
+                graph.addEdge(Double.valueOf(weight));
+                graph.drawGraph(pane);
+            } catch (DataFormatException e) {
+                alertError.setHeaderText("Invalid weight");
+                alertError.setContentText(e.getMessage());
+                alertError.showAndWait();
+            } catch (NumberFormatException e){
+                alertError.setHeaderText("Invalid weight");
+                alertError.setContentText("Weight must be a number");
+                alertError.showAndWait();
+            }
         });
 
     }
