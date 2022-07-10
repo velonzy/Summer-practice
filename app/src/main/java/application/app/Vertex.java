@@ -1,13 +1,11 @@
 package application.app;
 
-import javafx.util.Pair;
-
 import java.util.HashMap;
 
 public class Vertex {
-    private final char name;
+    private char name;
 
-    private final Coordinates<Double> coordinates;
+    private Coordinates<Double> coordinates;
 
     private HashMap<Vertex, Double> neighbours;
 
@@ -29,11 +27,20 @@ public class Vertex {
         return name;
     }
 
+    public void setName(char name){
+        this.name = name;
+    }
+
     HashMap<Vertex, Double> getNeighbours(){
         return neighbours;
     }
 
-    public Coordinates getCoordinates(){
+    public Coordinates<Double> getCoordinates(){
         return coordinates;
+    }
+
+    public void setCoordinates(Double x, Double y) {
+        this.coordinates.setX(x);
+        this.coordinates.setY(y);
     }
 }
