@@ -149,13 +149,6 @@ public class Controller {
             graph.getGraph().clearGraph();
             graph = new GraphController();
             graph.drawGraph(pane);
-        } catch (IOException e) {
-            alertError.setHeaderText("Error occurred in opening this file");
-            alertError.setContentText(e.getMessage());
-            alertError.showAndWait();
-            graph.getGraph().clearGraph();
-            graph = new GraphController();
-            graph.drawGraph(pane);
         }
     }
 

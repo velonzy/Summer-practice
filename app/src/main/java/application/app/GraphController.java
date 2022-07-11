@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GraphController { //для считывания графа
+public class GraphController {
     private ArrayList<VertexDrawable> vertexesDrawable;
     private Graph graph;
     private ArrayList<EdgeDrawable> edgesDrawable;
@@ -251,8 +251,7 @@ public class GraphController { //для считывания графа
         }
         return graphTest;
     }
-    //в readGraphFromWindow, readGraphFromFile добавить исключения, если вводимые данные пустые, плюс для
-    // файлов исключение на то, что файл не существует
+
     public void readGraph(String string) throws NumberFormatException, DataFormatException, ArrayIndexOutOfBoundsException{
         if (string.isEmpty()) CheckRules.inputIsEmpty();
         vertexesDrawable = new ArrayList<VertexDrawable>();
