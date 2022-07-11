@@ -37,21 +37,21 @@ public class Graph {
         availableNames.put(name, true);
     }
 
-    void addVertex(char vertex, double x, double y){
+    public void addVertex(char vertex, double x, double y){
         vertexes.add(new Vertex(vertex, x, y));
         availableNames.put(vertex, false);
     }
 
-    void addVertex(Vertex vertex){
+    public void addVertex(Vertex vertex){
         vertexes.add(vertex);
         availableNames.put(vertex.getName(), false);
     }
 
-    void addEdge(Vertex first, Vertex second, double weight){
+    public void addEdge(Vertex first, Vertex second, double weight){
         first.addNeighbour(second, weight);
     }
 
-    void deleteVertex(char vertex){
+    public void deleteVertex(char vertex){
         for(Vertex v : vertexes){
             if (v.getName() == vertex){
                 for(Vertex subV : vertexes){
@@ -64,7 +64,7 @@ public class Graph {
         }
     }
 
-    void deleteVertex(Vertex vertex){
+    public void deleteVertex(Vertex vertex){
         for(Vertex subV : vertexes){
             subV.getNeighbours().remove(vertex);
         }
@@ -72,7 +72,7 @@ public class Graph {
         vertexes.remove(vertex);
     }
 
-    void deleteEdge(char first, char second){
+    public void deleteEdge(char first, char second){
         Vertex firstVertex = null, secondVertex = null;
         for(Vertex v : vertexes){
             if (v.getName() == first){
@@ -87,13 +87,13 @@ public class Graph {
         }
     }
 
-    void deleteEdge(Vertex first, Vertex second){
+    public void deleteEdge(Vertex first, Vertex second){
         if (first != null && second != null){
             first.deleteNeighbour(second);
         }
     }
 
-    Vertex findVertex(char name) {
+    public Vertex findVertex(char name) {
         for (Vertex v : vertexes) {
             if (v.getName() == name) {
                 return v;
@@ -110,7 +110,7 @@ public class Graph {
         return first.getNeighbours().containsKey(second);
     }
 
-    void clearGraph(){
+    public void clearGraph(){
         vertexes.clear();
     }
 }

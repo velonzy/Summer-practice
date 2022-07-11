@@ -15,11 +15,11 @@ public class Vertex {
         neighbours = new HashMap<Vertex, Double>();
     }
 
-    void addNeighbour(Vertex vertex, double distance){
+    public void addNeighbour(Vertex vertex, double distance){
         neighbours.put(vertex, distance);
     }
 
-    void deleteNeighbour(Vertex vertex){
+    public void deleteNeighbour(Vertex vertex){
         neighbours.remove(vertex);
     }
 
@@ -31,7 +31,7 @@ public class Vertex {
         this.name = name;
     }
 
-    HashMap<Vertex, Double> getNeighbours(){
+    public HashMap<Vertex, Double> getNeighbours(){
         return neighbours;
     }
 
